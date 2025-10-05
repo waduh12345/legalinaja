@@ -1,13 +1,19 @@
+"use client";
+
 import { Search, Clock, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { useState } from "react";
 import HijriDate from "./components/HijriDate";
 import WidgetCard from "./components/WidgetCard";
+import ProgressWidget from "./components/ProgressWidget";
 import FeatureNavigation from "./components/FeatureNavigation";
 import ArticleCard from "./components/ArticleCard";
+import SearchModal from "./components/SearchModal";
 
 export default function Home() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12 ? "Pagi" : currentHour < 18 ? "Siang" : "Malam";
@@ -49,33 +55,37 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-accent-50 to-accent-100 pb-20">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-awqaf-border-light">
+      <header className="sticky top-0 z-30">
         <div className="max-w-md mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full shadow-sm border-2 border-accent-100 flex items-center justify-center">
-                <Image
-                  src="/ibadahapp-logo.png"
-                  alt="IbadahApp Logo"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 object-contain"
-                />
+          {/* Background only for header content */}
+          <div className="relative bg-background/90 backdrop-blur-md rounded-2xl border border-awqaf-border-light/50 shadow-lg px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white rounded-full shadow-sm border-2 border-accent-100 flex items-center justify-center">
+                  <Image
+                    src="/ibadahapp-logo.png"
+                    alt="IbadahApp Logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain"
+                  />
+                </div>
+                <div>
+                  <h1 className="text-lg font-bold text-awqaf-primary font-comfortaa">
+                    IbadahApp
+                  </h1>
+                  <HijriDate />
+                </div>
               </div>
-              <div>
-                <h1 className="text-lg font-bold text-awqaf-primary font-comfortaa">
-                  IbadahApp
-                </h1>
-                <HijriDate />
-              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-10 h-10 p-0 rounded-full bg-accent-100 hover:bg-accent-200 hover:text-awqaf-primary transition-colors duration-200"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                <Search className="w-5 h-5 text-awqaf-primary hover:text-awqaf-primary transition-colors duration-200" />
+              </Button>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-10 h-10 p-0 rounded-full bg-accent-100 hover:bg-accent-200 hover:text-awqaf-primary transition-colors duration-200"
-            >
-              <Search className="w-5 h-5 text-awqaf-primary hover:text-awqaf-primary transition-colors duration-200" />
-            </Button>
           </div>
         </div>
       </header>
@@ -105,7 +115,7 @@ export default function Home() {
         </Card>
 
         {/* Widget Cards */}
-        <div className="widget-grid">
+        <div className="grid grid-cols-2 gap-4">
           <WidgetCard
             type="prayer"
             title="Waktu Sholat"
@@ -122,6 +132,9 @@ export default function Home() {
             icon={<BookOpen className="w-4 h-4 text-info" />}
           />
         </div>
+
+        {/* Progress Widget */}
+        <ProgressWidget />
 
         {/* Feature Navigation */}
         <FeatureNavigation />
@@ -148,6 +161,12 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* Search Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </div>
   );
 }
