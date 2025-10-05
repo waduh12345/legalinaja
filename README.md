@@ -1,36 +1,185 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IbadahApp - Aplikasi Ibadah Muslim PWA
 
-## Getting Started
+IbadahApp adalah aplikasi Progressive Web App (PWA) yang dirancang khusus untuk umat Muslim. Aplikasi ini menyediakan berbagai fitur ibadah seperti jadwal sholat, arah qibla, Al-Quran, dan dzikir.
 
-First, run the development server:
+## 🚀 Fitur PWA
+
+- ✅ **Installable** - Dapat diinstall di perangkat mobile dan desktop
+- ✅ **Offline Ready** - Berfungsi tanpa koneksi internet
+- ✅ **Push Notifications** - Notifikasi reminder sholat
+- ✅ **Responsive Design** - Optimal di semua ukuran layar
+- ✅ **Fast Loading** - Loading cepat dengan service worker
+- ✅ **App-like Experience** - Pengalaman seperti aplikasi native
+
+## 🛠️ Teknologi
+
+- **Framework**: Next.js 15.5.4
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **PWA**: Service Worker, Web App Manifest
+- **Icons**: Custom Islamic-themed icons
+
+## 📱 Fitur Aplikasi
+
+### Fitur Utama
+
+- 🕐 **Jadwal Sholat** - Waktu sholat harian berdasarkan lokasi
+- 🧭 **Arah Qibla** - Kompas digital menuju Ka'bah
+- 📖 **Al-Quran** - Baca Al-Quran dengan terjemahan
+- 📿 **Dzikir & Doa** - Kumpulan dzikir dan doa harian
+
+### Fitur PWA
+
+- 📲 **Install Prompt** - Notifikasi untuk install aplikasi
+- 🔔 **Push Notifications** - Reminder waktu sholat
+- 💾 **Offline Storage** - Data tersimpan untuk akses offline
+- ⚡ **Background Sync** - Sinkronisasi data di background
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, pnpm, atau bun
+
+### Installation
+
+1. **Clone repository**
+
+```bash
+git clone <repository-url>
+cd ibadahapp-pwa
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+# atau
+yarn install
+# atau
+pnpm install
+```
+
+3. **Run development server**
 
 ```bash
 npm run dev
-# or
+# atau
 yarn dev
-# or
+# atau
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **Open browser**
+   Buka [http://localhost:3000](http://localhost:3000) di browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Testing PWA Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Install Prompt**: Buka di Chrome/Edge, akan muncul prompt install
+2. **Offline Mode**: Matikan internet, aplikasi tetap berfungsi
+3. **Mobile View**: Gunakan DevTools untuk test mobile experience
 
-## Learn More
+## 📁 Struktur Proyek
 
-To learn more about Next.js, take a look at the following resources:
+```
+ibadahapp-pwa/
+├── app/
+│   ├── components/
+│   │   └── PWAInstaller.tsx    # Komponen install PWA
+│   ├── globals.css             # Global styles
+│   ├── layout.tsx              # Root layout dengan PWA config
+│   └── page.tsx                # Homepage aplikasi
+├── public/
+│   ├── icons/                  # PWA icons (berbagai ukuran)
+│   ├── screenshots/            # Screenshots untuk PWA
+│   ├── manifest.json           # Web App Manifest
+│   └── sw.js                   # Service Worker
+├── next.config.ts              # Next.js config untuk PWA
+└── package.json
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Customization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Mengubah Icon PWA
 
-## Deploy on Vercel
+1. Ganti file di folder `public/icons/`
+2. Update `manifest.json` jika ada perubahan ukuran
+3. Pastikan semua ukuran tersedia (72x72, 96x96, 128x128, dll)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Mengubah Theme Color
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Update `theme_color` di `manifest.json`
+2. Update `theme-color` meta tag di `layout.tsx`
+3. Update warna di Tailwind config jika perlu
+
+### Menambah Fitur Baru
+
+1. Buat komponen di `app/components/`
+2. Update service worker untuk cache asset baru
+3. Update manifest.json untuk shortcut baru
+
+## 📱 PWA Checklist
+
+- ✅ Web App Manifest
+- ✅ Service Worker
+- ✅ HTTPS (untuk production)
+- ✅ Responsive Design
+- ✅ Install Prompt
+- ✅ Offline Functionality
+- ✅ Push Notifications
+- ✅ App Icons (berbagai ukuran)
+- ✅ Meta Tags untuk mobile
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+```bash
+npm run build
+# Deploy ke Vercel
+```
+
+### Manual Build
+
+```bash
+npm run build
+npm run start
+```
+
+### PWA Requirements untuk Production
+
+- ✅ HTTPS enabled
+- ✅ Valid SSL certificate
+- ✅ Service worker registered
+- ✅ Manifest accessible
+- ✅ Icons available
+
+## 🔧 Development
+
+### Scripts Available
+
+- `npm run dev` - Development server dengan Turbopack
+- `npm run build` - Build untuk production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+### PWA Testing Tools
+
+- Chrome DevTools > Application > Manifest
+- Chrome DevTools > Application > Service Workers
+- Lighthouse PWA audit
+- Web.dev PWA checklist
+
+## 📞 Support
+
+Untuk pertanyaan atau bantuan, silakan buat issue di repository ini.
+
+## 📄 License
+
+Proyek ini dibuat untuk keperluan ibadah umat Muslim. Silakan gunakan dengan bijak.
+
+---
+
+**IbadahApp** - Dibuat dengan ❤️ untuk umat Muslim
+

@@ -1,103 +1,260 @@
-import Image from "next/image";
+import {
+  Clock,
+  Compass,
+  BookOpen,
+  Heart,
+  Calendar,
+  Sun,
+  Moon,
+  Sunrise,
+  Sunset,
+} from "lucide-react";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const currentTime = new Date().toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const currentDate = new Date().toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const currentHour = new Date().getHours();
+  const greeting =
+    currentHour < 12 ? "Pagi" : currentHour < 18 ? "Siang" : "Malam";
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-accent-50 to-accent-100 pb-20">
+      {/* Header */}
+      <header className="bg-background/80 backdrop-blur-md shadow-sm border-b border-awqaf-border-light sticky top-0 z-30">
+        <div className="max-w-md mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-awqaf-primary font-comfortaa">
+                IbadahApp
+              </h1>
+              <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
+                Aplikasi Ibadah Muslim
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-lg font-semibold text-awqaf-foreground font-comfortaa">
+                {currentTime}
+              </div>
+              <div className="text-xs text-awqaf-foreground-secondary font-comfortaa">
+                {currentDate}
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-md mx-auto px-4 py-6">
+        {/* Welcome Card */}
+        <div className="bg-card rounded-2xl shadow-sm p-6 mb-6 border border-awqaf-border-light">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-accent-200 to-accent-300 rounded-full flex items-center justify-center">
+              <Sun className="w-6 h-6 text-awqaf-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-card-foreground font-comfortaa">
+                Selamat {greeting}
+              </h2>
+              <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
+                <span className="font-tajawal text-awqaf-primary">
+                  السلام عليكم
+                </span>
+                <br />
+                Assalamu'alaikum
+              </p>
+            </div>
+          </div>
+          <p className="text-awqaf-foreground-secondary text-sm font-comfortaa">
+            Mari kita tingkatkan ibadah kita hari ini dengan penuh keikhlasan
+            dan ketakwaan.
+          </p>
+        </div>
+
+        {/* Quick Actions Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-card rounded-2xl shadow-sm p-4 text-center hover:shadow-md transition-all duration-200 border border-awqaf-border-light active:scale-95">
+            <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Clock className="w-6 h-6 text-awqaf-primary" />
+            </div>
+            <h3 className="font-semibold text-card-foreground text-sm font-comfortaa">
+              Jadwal Sholat
+            </h3>
+            <p className="text-xs text-awqaf-foreground-secondary mt-1 font-comfortaa">
+              Waktu sholat hari ini
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl shadow-sm p-4 text-center hover:shadow-md transition-all duration-200 border border-awqaf-border-light active:scale-95">
+            <div className="w-12 h-12 bg-info/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Compass className="w-6 h-6 text-info" />
+            </div>
+            <h3 className="font-semibold text-card-foreground text-sm font-comfortaa">
+              Arah Qibla
+            </h3>
+            <p className="text-xs text-awqaf-foreground-secondary mt-1 font-comfortaa">
+              Menuju Ka'bah
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl shadow-sm p-4 text-center hover:shadow-md transition-all duration-200 border border-awqaf-border-light active:scale-95">
+            <div className="w-12 h-12 bg-accent-200 rounded-full flex items-center justify-center mx-auto mb-3">
+              <BookOpen className="w-6 h-6 text-accent-800" />
+            </div>
+            <h3 className="font-semibold text-card-foreground text-sm font-comfortaa">
+              Al-Quran
+            </h3>
+            <p className="text-xs text-awqaf-foreground-secondary mt-1 font-comfortaa">
+              Baca Al-Quran
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl shadow-sm p-4 text-center hover:shadow-md transition-all duration-200 border border-awqaf-border-light active:scale-95">
+            <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Heart className="w-6 h-6 text-warning" />
+            </div>
+            <h3 className="font-semibold text-card-foreground text-sm font-comfortaa">
+              Dzikir
+            </h3>
+            <p className="text-xs text-awqaf-foreground-secondary mt-1 font-comfortaa">
+              Dzikir & Doa
+            </p>
+          </div>
+        </div>
+
+        {/* Prayer Times Card */}
+        <div className="bg-card rounded-2xl shadow-sm p-6 border border-awqaf-border-light mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <Calendar className="w-5 h-5 text-awqaf-primary" />
+            <h3 className="font-semibold text-card-foreground font-comfortaa">
+              <span className="font-tajawal text-awqaf-primary">
+                أوقات الصلاة
+              </span>
+              <br />
+              Jadwal Sholat Hari Ini
+            </h3>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              {
+                name: "Subuh",
+                arabic: "الفجر",
+                time: "04:45",
+                icon: Sunrise,
+                isActive: false,
+              },
+              {
+                name: "Dzuhur",
+                arabic: "الظهر",
+                time: "12:15",
+                icon: Sun,
+                isActive: true,
+              },
+              {
+                name: "Ashar",
+                arabic: "العصر",
+                time: "15:30",
+                icon: Sun,
+                isActive: false,
+              },
+              {
+                name: "Maghrib",
+                arabic: "المغرب",
+                time: "18:20",
+                icon: Sunset,
+                isActive: false,
+              },
+              {
+                name: "Isya",
+                arabic: "العشاء",
+                time: "19:35",
+                icon: Moon,
+                isActive: false,
+              },
+            ].map((prayer) => {
+              const Icon = prayer.icon;
+              return (
+                <div
+                  key={prayer.name}
+                  className={`
+                  flex items-center justify-between py-3 px-4 rounded-xl transition-all duration-200
+                  ${
+                    prayer.isActive
+                      ? "bg-accent-100 border border-accent-200"
+                      : "hover:bg-accent-50"
+                  }
+                `}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`
+                      w-8 h-8 rounded-full flex items-center justify-center
+                      ${
+                        prayer.isActive
+                          ? "bg-awqaf-primary text-white"
+                          : "bg-accent-100 text-awqaf-primary"
+                      }
+                    `}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-card-foreground font-comfortaa font-medium">
+                        {prayer.name}
+                      </span>
+                      <span className="text-xs text-awqaf-primary font-tajawal">
+                        {prayer.arabic}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`
+                      font-comfortaa font-semibold
+                      ${
+                        prayer.isActive
+                          ? "text-awqaf-primary"
+                          : "text-awqaf-foreground-secondary"
+                      }
+                    `}
+                    >
+                      {prayer.time}
+                    </span>
+                    {prayer.isActive && (
+                      <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Today's Quote */}
+        <div className="bg-gradient-to-r from-accent-100 to-accent-200 rounded-2xl p-6 border border-accent-200">
+          <div className="text-center">
+            <h4 className="font-semibold text-awqaf-primary font-comfortaa mb-2">
+              Quote Hari Ini
+            </h4>
+            <p className="text-awqaf-foreground-secondary text-sm font-comfortaa italic">
+              "Dan barangsiapa yang bertakwa kepada Allah, niscaya Dia akan
+              mengadakan baginya jalan keluar."
+            </p>
+            <p className="text-xs text-awqaf-primary font-tajawal mt-2">
+              - QS. At-Talaq: 2
+            </p>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
