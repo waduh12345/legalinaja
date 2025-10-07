@@ -22,7 +22,11 @@ interface SurahCardProps {
   isBookmarked: boolean;
 }
 
-export default function SurahCard({ surah, onBookmark, isBookmarked }: SurahCardProps) {
+export default function SurahCard({
+  surah,
+  onBookmark,
+  isBookmarked,
+}: SurahCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
@@ -33,7 +37,7 @@ export default function SurahCard({ surah, onBookmark, isBookmarked }: SurahCard
 
   return (
     <Link href={`/quran/${surah.number}`}>
-      <Card 
+      <Card
         className="border-awqaf-border-light hover:shadow-md transition-all duration-200 cursor-pointer group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -58,18 +62,20 @@ export default function SurahCard({ surah, onBookmark, isBookmarked }: SurahCard
                     Juz {surah.juz}
                   </span>
                 </div>
-                
+
                 <p className="text-awqaf-primary font-tajawal text-lg mb-1">
                   {surah.arabic}
                 </p>
-                
+
                 <div className="flex items-center gap-4 text-xs text-awqaf-foreground-secondary font-comfortaa">
                   <span>{surah.verses} ayat</span>
-                  <span className={`px-2 py-1 rounded-full ${
-                    surah.revelation === "Meccan" 
-                      ? "bg-accent-100 text-awqaf-primary" 
-                      : "bg-info/20 text-info"
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full ${
+                      surah.revelation === "Meccan"
+                        ? "bg-accent-100 text-awqaf-primary"
+                        : "bg-info/20 text-info"
+                    }`}
+                  >
                     {surah.revelation === "Meccan" ? "Makkiyah" : "Madaniyah"}
                   </span>
                 </div>
@@ -77,7 +83,7 @@ export default function SurahCard({ surah, onBookmark, isBookmarked }: SurahCard
                 {surah.lastRead && (
                   <div className="flex items-center gap-1 mt-2 text-xs text-awqaf-foreground-secondary font-comfortaa">
                     <Clock className="w-3 h-3" />
-                    <span>{surah.lastRead}</span>
+                    <span>dibaca {surah.lastRead}</span>
                   </div>
                 )}
               </div>

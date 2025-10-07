@@ -180,7 +180,7 @@ const searchItems: SearchItem[] = [
     title: "Kalender Hijriyah",
     description: "Lihat kalender Hijriyah dan tanggal penting",
     category: "Pengetahuan",
-    href: "/kalender",
+    href: "/kalender-hijriyah",
     icon: Calendar,
     type: "feature",
   },

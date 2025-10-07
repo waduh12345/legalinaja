@@ -17,12 +17,7 @@ import {
   Star,
 } from "lucide-react";
 import Link from "next/link";
-import {
-  artikelData,
-  categories,
-  sortOptions,
-  type Artikel,
-} from "./data-artikel";
+import { artikelData, categories, sortOptions } from "./data-artikel";
 
 export default function ArtikelPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -143,7 +138,11 @@ export default function ArtikelPage() {
 
             <div className="space-y-3">
               {featuredArticles.slice(0, 2).map((artikel) => (
-                <Link key={artikel.id} href={`/artikel/${artikel.slug}`}>
+                <Link
+                  className="block"
+                  key={artikel.id}
+                  href={`/artikel/${artikel.slug}`}
+                >
                   <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200">
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
@@ -260,7 +259,11 @@ export default function ArtikelPage() {
 
           <div className="space-y-4">
             {filteredArtikelData.map((artikel) => (
-              <Link key={artikel.id} href={`/artikel/${artikel.slug}`}>
+              <Link
+                className="block"
+                key={artikel.id}
+                href={`/artikel/${artikel.slug}`}
+              >
                 <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">

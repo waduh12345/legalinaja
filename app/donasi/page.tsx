@@ -24,7 +24,7 @@ export default function DonasiPage() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-gradient-to-r from-awqaf-primary to-awqaf-primary/80 text-white">
-        <div className="container mx-auto px-4 py-8">
+        <div className="max-w-md mx-auto px-4 py-8">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Gift className="w-8 h-8" />
@@ -41,7 +41,7 @@ export default function DonasiPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 space-y-8">
+      <div className="max-w-md mx-auto px-4 py-6 space-y-8">
         {/* Popular Donations Carousel */}
         <section>
           <DonationCarousel
@@ -76,7 +76,7 @@ export default function DonasiPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <Button
                   variant="outline"
                   className="border-awqaf-border-light text-awqaf-foreground-secondary hover:border-awqaf-primary hover:text-awqaf-primary font-comfortaa"

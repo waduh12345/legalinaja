@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { artikelData } from "./artikel/data-artikel";
 import HijriDate from "./components/HijriDate";
 import WidgetCard from "./components/WidgetCard";
 import ProgressWidget from "./components/ProgressWidget";
@@ -20,39 +21,35 @@ export default function Home() {
   const greeting =
     currentHour < 12 ? "Pagi" : currentHour < 18 ? "Siang" : "Malam";
 
-  // Sample articles data
-  const articles = [
-    {
-      id: "1",
-      title: "Keutamaan Sholat Berjamaah di Masjid",
-      excerpt:
-        "Sholat berjamaah memiliki keutamaan yang sangat besar dalam Islam. Mari kita pelajari bersama...",
-      category: "Fiqih",
-      readTime: "5 min",
-      views: "2.3K",
-      publishedAt: "2 jam lalu",
-    },
-    {
-      id: "2",
-      title: "Hikmah Puasa Sunnah Senin Kamis",
-      excerpt:
-        "Puasa sunnah Senin Kamis memiliki banyak hikmah dan keutamaan yang luar biasa...",
-      category: "Ibadah",
-      readTime: "3 min",
-      views: "1.8K",
-      publishedAt: "5 jam lalu",
-    },
-    {
-      id: "3",
-      title: "Cara Menjaga Lisan dalam Kehidupan Sehari-hari",
-      excerpt:
-        "Lisan adalah salah satu nikmat Allah yang harus kita jaga dengan baik...",
-      category: "Akhlak",
-      readTime: "4 min",
-      views: "3.1K",
-      publishedAt: "1 hari lalu",
-    },
-  ];
+  // Format tanggal ke lokal Indonesia
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  // Ambil artikel terbaru dari sumber data yang sama dengan halaman /artikel
+  const latestArticles = artikelData
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    )
+    .slice(0, 3)
+    .map((artikel) => ({
+      id: artikel.id,
+      slug: artikel.slug,
+      title: artikel.title,
+      excerpt: artikel.excerpt,
+      category: artikel.category,
+      readTime: artikel.readTime,
+      views: artikel.views.toLocaleString(),
+      publishedAt: formatDate(artikel.publishedAt),
+      image: artikel.image,
+    }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-accent-50 to-accent-100 pb-20">
@@ -162,7 +159,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-3">
-            {articles.map((article) => (
+            {latestArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>

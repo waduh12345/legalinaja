@@ -43,11 +43,12 @@ export default function QiblaPage() {
     "granted" | "denied" | "prompt" | "unknown"
   >("unknown");
   const [isCompassSupported, setIsCompassSupported] = useState(false);
+  const [isCompassEnabled, setIsCompassEnabled] = useState(false);
   const compassRef = useRef<HTMLDivElement>(null);
 
-  // Check if device supports compass/magnetometer
+  // Check if device supports device orientation
   useEffect(() => {
-    if ("DeviceOrientationEvent" in window) {
+    if (typeof window !== "undefined" && "DeviceOrientationEvent" in window) {
       setIsCompassSupported(true);
     }
   }, []);
@@ -149,28 +150,103 @@ export default function QiblaPage() {
     }
   };
 
+  // Request permission (iOS) and enable compass
+  const enableCompass = async () => {
+    try {
+      if (typeof DeviceOrientationEvent !== "undefined") {
+        const maybe = DeviceOrientationEvent as unknown as {
+          requestPermission?: () => Promise<string>;
+        };
+        if (typeof maybe.requestPermission === "function") {
+          // iOS 13+
+          const response = await maybe.requestPermission();
+          if (response !== "granted") {
+            setIsCompassEnabled(false);
+            return;
+          }
+        }
+      }
+
+      setIsCompassEnabled(true);
+    } catch {
+      setIsCompassEnabled(false);
+    }
+  };
+
   // Handle compass orientation
   useEffect(() => {
-    if (!isCompassSupported) return;
+    if (!isCompassSupported || !isCompassEnabled) return;
 
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      if (event.alpha !== null) {
-        setCompassHeading(event.alpha);
+    const getScreenOrientation = (): number => {
+      const orientation: ScreenOrientation | number | undefined =
+        (window.screen as unknown as { orientation?: ScreenOrientation })
+          .orientation ||
+        (window as unknown as { orientation?: number }).orientation;
+      const angle =
+        typeof orientation === "object" && orientation
+          ? orientation.angle
+          : typeof orientation === "number"
+          ? orientation
+          : 0;
+      return typeof angle === "number" ? angle : 0;
+    };
+
+    const toCompassHeading = (alpha: number): number => {
+      // Convert device yaw (alpha, 0-360, clockwise from device top) to compass heading from North
+      // Many devices report alpha as 0 when facing North; adjust for screen rotation
+      const screenAngle = getScreenOrientation();
+      const heading = (alpha + screenAngle) % 360;
+      return heading < 0 ? heading + 360 : heading;
+    };
+
+    const handleOrientation = (
+      event: DeviceOrientationEvent & { webkitCompassHeading?: number }
+    ) => {
+      // Prefer iOS webkitCompassHeading if available
+      const webkitHeading = (
+        event as unknown as { webkitCompassHeading?: number }
+      ).webkitCompassHeading;
+      if (typeof webkitHeading === "number") {
+        setCompassHeading(webkitHeading);
+        return;
+      }
+      if (event.alpha != null) {
+        setCompassHeading(toCompassHeading(event.alpha));
       }
     };
 
-    window.addEventListener("deviceorientation", handleOrientation);
-    return () =>
-      window.removeEventListener("deviceorientation", handleOrientation);
-  }, [isCompassSupported]);
+    // Some browsers emit 'deviceorientationabsolute'
+    window.addEventListener(
+      "deviceorientationabsolute",
+      handleOrientation as EventListener
+    );
+    window.addEventListener(
+      "deviceorientation",
+      handleOrientation as EventListener
+    );
+    return () => {
+      window.removeEventListener(
+        "deviceorientationabsolute",
+        handleOrientation as EventListener
+      );
+      window.removeEventListener(
+        "deviceorientation",
+        handleOrientation as EventListener
+      );
+    };
+  }, [isCompassSupported, isCompassEnabled]);
 
-  // Update compass rotation
+  // Update needle rotation towards Qibla
   useEffect(() => {
-    if (compassRef.current && qiblaData && compassHeading !== null) {
-      const rotation = compassHeading - qiblaData.direction;
-      compassRef.current.style.transform = `rotate(${rotation}deg)`;
-    }
-  }, [compassHeading, qiblaData]);
+    if (!compassRef.current || !qiblaData) return;
+
+    const hasLiveHeading = isCompassEnabled && compassHeading !== null;
+    const rotation = hasLiveHeading
+      ? (qiblaData.direction - (compassHeading as number) + 360) % 360
+      : qiblaData.direction;
+
+    compassRef.current.style.transform = `rotate(${rotation}deg)`;
+  }, [isCompassEnabled, compassHeading, qiblaData]);
 
   const formatDistance = (distance: number): string => {
     if (distance < 1) {
@@ -307,14 +383,14 @@ export default function QiblaPage() {
                     {[0, 45, 90, 135, 180, 225, 270, 315].map(
                       (angle, index) => {
                         const directions = [
-                          "N",
-                          "NE",
-                          "E",
-                          "SE",
-                          "S",
-                          "SW",
-                          "W",
-                          "NW",
+                          "U", // Utara
+                          "TL", // Timur Laut
+                          "T", // Timur
+                          "TG", // Tenggara
+                          "S", // Selatan
+                          "BD", // Barat Daya
+                          "B", // Barat
+                          "BL", // Barat Laut
                         ];
                         const x =
                           50 + 40 * Math.cos(((angle - 90) * Math.PI) / 180);
@@ -336,12 +412,15 @@ export default function QiblaPage() {
                       }
                     )}
 
-                    {/* Qibla direction indicator */}
+                    {/* Qibla direction indicator (needle) */}
                     <div
                       ref={compassRef}
-                      className="absolute top-1/2 left-1/2 w-1 h-16 bg-awqaf-primary rounded-full transform -translate-x-1/2 -translate-y-1/2 origin-bottom transition-transform duration-300"
+                      className="absolute bottom-1/2 left-1/2 -translate-x-1/2 w-1 h-20 bg-awqaf-primary rounded-full origin-bottom transition-transform duration-150"
                     >
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-4 border-l-transparent border-r-transparent border-b-awqaf-primary"></div>
+                      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-4 border-l-transparent border-r-transparent border-b-awqaf-primary"></div>
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-base leading-none select-none">
+                        🕋
+                      </div>
                     </div>
 
                     {/* Center dot */}
@@ -349,6 +428,19 @@ export default function QiblaPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Enable compass button for iOS permission or when disabled */}
+              {isCompassSupported && !isCompassEnabled && (
+                <div className="text-center">
+                  <Button size="sm" variant="outline" onClick={enableCompass}>
+                    Aktifkan Kompas Real-time
+                  </Button>
+                  <p className="mt-2 text-xs text-awqaf-foreground-secondary font-comfortaa">
+                    Pada beberapa perangkat (iOS), Anda perlu memberi izin
+                    sensor.
+                  </p>
+                </div>
+              )}
 
               {/* Qibla Information */}
               <div className="grid grid-cols-2 gap-4">
@@ -389,7 +481,9 @@ export default function QiblaPage() {
                 </p>
                 <p className="text-xs text-awqaf-foreground-secondary font-comfortaa">
                   {isCompassSupported
-                    ? "Kompas digital tersedia untuk arah yang lebih akurat"
+                    ? isCompassEnabled
+                      ? "Kompas digital aktif. Jarum bergerak real-time."
+                      : "Kompas digital tersedia. Aktifkan untuk arah real-time."
                     : "Kompas digital tidak tersedia di perangkat ini"}
                 </p>
               </div>

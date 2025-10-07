@@ -4,8 +4,15 @@ import { useState, useEffect, useMemo } from "react";
 import { Search, BookOpen, Bookmark, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import SurahCard from "../components/SurahCard";
 import SurahFilter from "../components/SurahFilter";
+import { useRouter } from "next/navigation";
 
 interface Surah {
   number: number;
@@ -18,6 +25,7 @@ interface Surah {
 }
 
 export default function QuranPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedJuz, setSelectedJuz] = useState<number | null>(null);
   const [selectedRevelation, setSelectedRevelation] = useState<
@@ -25,6 +33,7 @@ export default function QuranPage() {
   >("all");
   const [bookmarkedSurahs, setBookmarkedSurahs] = useState<number[]>([]);
   const [recentSurahs, setRecentSurahs] = useState<number[]>([]);
+  const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
 
   // Sample Quran data (in real app, this would come from an API)
   const allSurahs: Surah[] = useMemo(
@@ -988,6 +997,13 @@ export default function QuranPage() {
       .slice(0, 5) as Surah[];
   }, [recentSurahs, allSurahs]);
 
+  // Get bookmarked surahs with details
+  const bookmarkedSurahsWithDetails = useMemo(() => {
+    return bookmarkedSurahs
+      .map((surahNumber) => allSurahs.find((s) => s.number === surahNumber))
+      .filter(Boolean) as Surah[];
+  }, [bookmarkedSurahs, allSurahs]);
+
   // Handle bookmark toggle
   const handleBookmark = (surahNumber: number) => {
     const newBookmarks = bookmarkedSurahs.includes(surahNumber)
@@ -1006,6 +1022,13 @@ export default function QuranPage() {
     ].slice(0, 10);
     setRecentSurahs(newRecent);
     localStorage.setItem("quran-recent", JSON.stringify(newRecent));
+  };
+
+  // Open bookmarked surah: update recent and navigate
+  const openBookmarkedSurah = (surahNumber: number) => {
+    handleSurahClick(surahNumber);
+    setIsBookmarkOpen(false);
+    router.push(`/quran/${surahNumber}`);
   };
 
   return (
@@ -1027,8 +1050,8 @@ export default function QuranPage() {
       <main className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Search Bar */}
         <Card className="border-awqaf-border-light">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
+          <CardContent>
+            <div className="flex items-center gap-3 mb-4">
               <Search className="w-5 h-5 text-awqaf-foreground-secondary" />
               <Input
                 type="text"
@@ -1038,16 +1061,16 @@ export default function QuranPage() {
                 className="flex-1 border-0 bg-transparent text-awqaf-foreground placeholder-awqaf-foreground-secondary font-comfortaa focus-visible:ring-0 focus-visible:ring-offset-0"
               />
             </div>
+
+            {/* Filter */}
+            <SurahFilter
+              selectedJuz={selectedJuz}
+              onJuzChange={setSelectedJuz}
+              selectedRevelation={selectedRevelation}
+              onRevelationChange={setSelectedRevelation}
+            />
           </CardContent>
         </Card>
-
-        {/* Filter */}
-        <SurahFilter
-          selectedJuz={selectedJuz}
-          onJuzChange={setSelectedJuz}
-          selectedRevelation={selectedRevelation}
-          onRevelationChange={setSelectedRevelation}
-        />
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-4">
@@ -1065,7 +1088,10 @@ export default function QuranPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200 cursor-pointer group">
+          <Card
+            onClick={() => setIsBookmarkOpen(true)}
+            className="border-awqaf-border-light hover:shadow-md transition-all duration-200 cursor-pointer group"
+          >
             <CardContent className="p-4 text-center">
               <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-accent-200 transition-colors duration-200">
                 <Bookmark className="w-6 h-6 text-info" />
@@ -1079,6 +1105,43 @@ export default function QuranPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Bookmarked Surahs Dialog */}
+        <Dialog open={isBookmarkOpen} onOpenChange={setIsBookmarkOpen}>
+          <DialogContent className="border-awqaf-border-light p-0">
+            <DialogHeader className="p-4">
+              <DialogTitle className="font-comfortaa">
+                Surah Tersimpan
+              </DialogTitle>
+            </DialogHeader>
+            <div className="px-4 pb-4">
+              {bookmarkedSurahsWithDetails.length === 0 ? (
+                <p className="text-sm text-awqaf-foreground-secondary font-comfortaa text-center py-6">
+                  Belum ada surah yang dibookmark
+                </p>
+              ) : (
+                <div className="space-y-2 max-h-80 overflow-y-auto mobile-scroll">
+                  {bookmarkedSurahsWithDetails.map((surah) => (
+                    <div
+                      key={surah.number}
+                      onClick={() => openBookmarkedSurah(surah.number)}
+                      className="flex items-center justify-between p-3 rounded-md border border-awqaf-border-light hover:bg-accent-50 cursor-pointer"
+                    >
+                      <div>
+                        <p className="font-semibold font-comfortaa text-card-foreground">
+                          {surah.number}. {surah.name}
+                        </p>
+                        <p className="text-xs text-awqaf-foreground-secondary font-comfortaa">
+                          {surah.arabic} • {surah.verses} ayat
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Recent Surahs */}
         {recentSurahsWithDetails.length > 0 && (

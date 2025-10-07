@@ -22,9 +22,11 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Masjid {
   id: string;
+  thumbnail: string;
   name: string;
   type: "masjid" | "mushola";
   address: string;
@@ -64,6 +66,8 @@ interface Location {
 const sampleMasjidData: Masjid[] = [
   {
     id: "1",
+    thumbnail:
+      "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Masjid Istiqlal",
     type: "masjid",
     address:
@@ -96,6 +100,8 @@ const sampleMasjidData: Masjid[] = [
   },
   {
     id: "2",
+    thumbnail:
+      "https://plus.unsplash.com/premium_photo-1678483063222-b9cbc116b371?q=80&w=715&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Masjid Al-Azhar",
     type: "masjid",
     address: "Jl. Sisingamangaraja, Kebayoran Baru, Jakarta Selatan",
@@ -116,6 +122,8 @@ const sampleMasjidData: Masjid[] = [
   },
   {
     id: "3",
+    thumbnail:
+      "https://images.unsplash.com/photo-1571702080583-f1e2746f3d0d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Mushola Al-Hidayah",
     type: "mushola",
     address: "Jl. Sudirman No. 123, Jakarta Pusat",
@@ -136,6 +144,8 @@ const sampleMasjidData: Masjid[] = [
   },
   {
     id: "4",
+    thumbnail:
+      "https://plus.unsplash.com/premium_photo-1697730012360-d49e7ca1a776?q=80&w=1192&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Masjid Cut Meutia",
     type: "masjid",
     address: "Jl. Cut Meutia No. 1, Menteng, Jakarta Pusat",
@@ -156,6 +166,8 @@ const sampleMasjidData: Masjid[] = [
   },
   {
     id: "5",
+    thumbnail:
+      "https://plus.unsplash.com/premium_photo-1678373453638-4bf2c8df91bc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Mushola Baiturrahman",
     type: "mushola",
     address: "Jl. Thamrin No. 45, Jakarta Pusat",
@@ -537,6 +549,17 @@ export default function MasjidPage() {
                 <Card key={masjid.id} className="border-awqaf-border-light">
                   <CardContent className="p-4 space-y-4">
                     {/* Header */}
+                    <div>
+                      <Image
+                        unoptimized
+                        src={masjid.thumbnail}
+                        alt={masjid.name}
+                        width={100}
+                        height={100}
+                        className="w-full h-40 object-cover rounded-lg"
+                      />
+                    </div>
+
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
@@ -569,26 +592,6 @@ export default function MasjidPage() {
                         <p className="text-xs text-awqaf-foreground-secondary font-comfortaa">
                           {formatDistance(masjid.distance)}
                         </p>
-                      </div>
-                    </div>
-
-                    {/* Prayer Time */}
-                    <div className="bg-accent-50 p-3 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-awqaf-primary" />
-                          <span className="text-sm font-medium text-card-foreground font-comfortaa">
-                            Sholat {nextPrayer.name} berikutnya
-                          </span>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm font-semibold text-awqaf-primary font-comfortaa">
-                            {nextPrayer.time}
-                          </p>
-                          <p className="text-xs text-awqaf-foreground-secondary font-comfortaa">
-                            {nextPrayer.minutesLeft} menit lagi
-                          </p>
-                        </div>
                       </div>
                     </div>
 
@@ -645,20 +648,6 @@ export default function MasjidPage() {
                         <Car className="w-4 h-4 mr-2" />
                         Navigasi
                       </Button>
-                      {masjid.contact?.phone && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            window.open(
-                              `tel:${masjid.contact?.phone}`,
-                              "_self"
-                            );
-                          }}
-                        >
-                          <Phone className="w-4 h-4" />
-                        </Button>
-                      )}
                       {masjid.contact?.website && (
                         <Button
                           variant="outline"

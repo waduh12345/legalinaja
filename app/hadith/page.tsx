@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
   BookOpen,
   Search,
   Calendar,
@@ -198,10 +205,26 @@ const sampleHadiths: Hadith[] = [
 
 export default function HadithPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [hadithOfTheDay, setHadithOfTheDay] = useState<Hadith | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedGrades, setSelectedGrades] = useState<Set<Hadith["grade"]>>(
+    new Set()
+  );
+  const [selectedBook, setSelectedBook] = useState<string | null>(null);
+
+  const uniqueBooks = useMemo(() => {
+    return Array.from(new Set(sampleHadiths.map((h) => h.book)));
+  }, []);
+
+  // Debounce search
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -231,14 +254,13 @@ export default function HadithPage() {
   const filteredHadiths = useMemo(() => {
     let filtered = sampleHadiths;
 
-    if (searchQuery) {
+    if (debouncedQuery) {
+      const q = debouncedQuery.toLowerCase();
       filtered = filtered.filter(
         (hadith) =>
-          hadith.arabic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          hadith.translation
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          hadith.narrator.toLowerCase().includes(searchQuery.toLowerCase())
+          hadith.arabic.toLowerCase().includes(q) ||
+          hadith.translation.toLowerCase().includes(q) ||
+          hadith.narrator.toLowerCase().includes(q)
       );
     }
 
@@ -248,8 +270,23 @@ export default function HadithPage() {
       );
     }
 
+    if (selectedGrades.size > 0) {
+      filtered = filtered.filter((h) => selectedGrades.has(h.grade));
+    }
+
+    if (selectedBook) {
+      filtered = filtered.filter((h) => h.book === selectedBook);
+    }
+
     return filtered;
-  }, [searchQuery, selectedCategory]);
+  }, [debouncedQuery, selectedCategory, selectedGrades, selectedBook]);
+
+  const clearAllFilters = () => {
+    setSelectedCategory(null);
+    setSelectedGrades(new Set());
+    setSelectedBook(null);
+    setSearchQuery("");
+  };
 
   const handleToggleFavorite = (hadithId: string) => {
     setFavorites((prev) => {
@@ -409,63 +446,162 @@ export default function HadithPage() {
           </Card>
         )}
 
-        {/* Search */}
-        <Card className="border-awqaf-border-light">
-          <CardContent className="p-4">
+        {/* Search + Sticky Chip Bar */}
+        <Card className="border-awqaf-border-light sticky top-[68px] z-20">
+          <CardContent className="p-3 space-y-3">
+            {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-awqaf-foreground-secondary" />
               <Input
-                placeholder="Cari hadist..."
+                placeholder="Cari hadist, perawi, atau kitab..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 font-comfortaa"
               />
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Categories */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-awqaf-primary font-comfortaa">
-            Kategori Hadist
-          </h2>
-
-          <div className="grid grid-cols-2 gap-3">
-            {hadithCategories.map((category) => {
-              const IconComponent = category.icon;
-              return (
-                <Card
+            {/* Chips: Categories + quick grade */}
+            <div className="flex gap-2 overflow-x-auto pb-1 mobile-scroll">
+              {/* Categories */}
+              {hadithCategories.map((category) => (
+                <Button
                   key={category.id}
-                  className={`border-awqaf-border-light hover:shadow-md transition-all duration-200 cursor-pointer ${
-                    selectedCategory === category.id
-                      ? "ring-2 ring-awqaf-primary"
-                      : ""
-                  }`}
+                  variant={
+                    selectedCategory === category.id ? "default" : "outline"
+                  }
+                  size="sm"
+                  className="flex-shrink-0"
                   onClick={() =>
                     setSelectedCategory(
                       selectedCategory === category.id ? null : category.id
                     )
                   }
                 >
-                  <CardContent className="p-4 text-center">
-                    <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <IconComponent className="w-6 h-6 text-awqaf-primary" />
+                  {category.name}
+                </Button>
+              ))}
+
+              {/* Quick grades */}
+              {(["sahih", "hasan", "daif"] as const).map((g) => (
+                <Button
+                  key={g}
+                  variant={selectedGrades.has(g) ? "default" : "outline"}
+                  size="sm"
+                  className="flex-shrink-0"
+                  onClick={() => {
+                    setSelectedGrades((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(g)) {
+                        next.delete(g);
+                      } else {
+                        next.add(g);
+                      }
+                      return next;
+                    });
+                  }}
+                >
+                  {g === "sahih" ? "Shahih" : g === "hasan" ? "Hasan" : "Dhaif"}
+                </Button>
+              ))}
+
+              {/* Advanced filter drawer trigger */}
+              <Drawer open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <DrawerTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex-shrink-0">
+                    Filter Lanjutan
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="border-awqaf-border-light">
+                  <DrawerHeader>
+                    <DrawerTitle className="font-comfortaa">
+                      Filter Lanjutan
+                    </DrawerTitle>
+                  </DrawerHeader>
+                  <div className="p-4 space-y-4">
+                    {/* Book filter */}
+                    <div>
+                      <p className="text-sm text-awqaf-foreground-secondary font-comfortaa mb-2">
+                        Kitab
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {uniqueBooks.map((book) => (
+                          <Button
+                            key={book}
+                            variant={
+                              selectedBook === book ? "default" : "outline"
+                            }
+                            size="sm"
+                            onClick={() =>
+                              setSelectedBook(
+                                selectedBook === book ? null : book
+                              )
+                            }
+                          >
+                            {book}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
-                    <h3 className="font-semibold text-card-foreground font-comfortaa text-sm">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs text-awqaf-foreground-secondary font-comfortaa mt-1">
-                      {category.description}
-                    </p>
-                    <Badge variant="secondary" className="text-xs mt-2">
-                      {category.count} hadist
+
+                    {/* Clear */}
+                    <div className="pt-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={clearAllFilters}
+                      >
+                        Reset Semua Filter
+                      </Button>
+                    </div>
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </div>
+
+            {/* Active filter summary */}
+            {(selectedCategory ||
+              selectedGrades.size > 0 ||
+              selectedBook ||
+              debouncedQuery) && (
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {debouncedQuery && (
+                    <Badge variant="secondary" className="text-xs">
+                      Cari: “{debouncedQuery}”
                     </Badge>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
+                  )}
+                  {selectedCategory && (
+                    <Badge variant="secondary" className="text-xs">
+                      {
+                        hadithCategories.find((c) => c.id === selectedCategory)
+                          ?.name
+                      }
+                    </Badge>
+                  )}
+                  {Array.from(selectedGrades).map((g) => (
+                    <Badge key={g} variant="secondary" className="text-xs">
+                      {g === "sahih"
+                        ? "Shahih"
+                        : g === "hasan"
+                        ? "Hasan"
+                        : "Dhaif"}
+                    </Badge>
+                  ))}
+                  {selectedBook && (
+                    <Badge variant="secondary" className="text-xs">
+                      {selectedBook}
+                    </Badge>
+                  )}
+                </div>
+                <Button variant="ghost" size="sm" onClick={clearAllFilters}>
+                  <RefreshCw className="w-4 h-4 mr-1" /> Reset
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Categories grid removed; replaced by sticky chip bar */}
 
         {/* Hadith List */}
         <div className="space-y-4">

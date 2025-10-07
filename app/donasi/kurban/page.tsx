@@ -60,7 +60,7 @@ export default function KurbanPage() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-gradient-to-r from-error to-error/80 text-white">
-        <div className="container mx-auto px-4 py-6">
+        <div className="max-w-md mx-auto px-4 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Link href="/donasi">
               <Button
@@ -87,11 +87,11 @@ export default function KurbanPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="max-w-md mx-auto px-4 py-6">
         {/* Info Section */}
         <Card className="border-awqaf-border-light mb-6">
           <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-error font-comfortaa mb-1">
                   {kurbanDonations.length}
@@ -125,7 +125,7 @@ export default function KurbanPage() {
         </Card>
 
         {/* Donations Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {kurbanDonations.map((donation) => {
             const daysRemaining = getDaysRemaining(donation.endDate);
             const isFavorite = favoriteDonations.has(donation.id);

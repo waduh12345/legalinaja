@@ -15,10 +15,18 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 interface Verse {
   number: number;
   arabic: string;
+  latin: string;
   translation: string;
   audio?: string;
 }
@@ -58,38 +66,46 @@ export default function SurahDetailPage() {
         {
           number: 1,
           arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+          latin: "Bismillāhir-raḥmānir-raḥīm",
           translation: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
         },
         {
           number: 2,
           arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+          latin: "Al-ḥamdu lillāhi rabbil-'ālamīn",
           translation: "Segala puji bagi Allah, Tuhan seluruh alam.",
         },
         {
           number: 3,
           arabic: "الرَّحْمَٰنِ الرَّحِيمِ",
+          latin: "Ar-raḥmānir-raḥīm",
           translation: "Yang Maha Pengasih, Maha Penyayang.",
         },
         {
           number: 4,
           arabic: "مَالِكِ يَوْمِ الدِّينِ",
+          latin: "Māliki yaumid-dīn",
           translation: "Pemilik hari pembalasan.",
         },
         {
           number: 5,
           arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          latin: "Iyyāka na'budu wa iyyāka nasta'īn",
           translation:
             "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami memohon pertolongan.",
         },
         {
           number: 6,
           arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+          latin: "Ihdinaṣ-ṣirāṭal-mustaqīm",
           translation: "Tunjukilah kami jalan yang lurus.",
         },
         {
           number: 7,
           arabic:
             "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+          latin:
+            "Ṣirāṭallażīna an'amta 'alaihim ghairil-magḍūbi 'alaihim walāḍ-ḍāllīn",
           translation:
             "(yaitu) jalan orang-orang yang telah Engkau beri nikmat kepadanya; bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat.",
         },
@@ -205,14 +221,74 @@ export default function SurahDetailPage() {
                 >
                   <Share2 className="w-5 h-5 text-awqaf-primary" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowTranslation(!showTranslation)}
-                  className="w-10 h-10 p-0 rounded-full hover:bg-accent-100 transition-colors duration-200"
-                >
-                  <Settings className="w-5 h-5 text-awqaf-primary" />
-                </Button>
+                <Drawer>
+                  <DrawerTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-10 h-10 p-0 rounded-full hover:bg-accent-100 transition-colors duration-200"
+                    >
+                      <Settings className="w-5 h-5 text-awqaf-primary" />
+                    </Button>
+                  </DrawerTrigger>
+                  <DrawerContent className="border-awqaf-border-light">
+                    <DrawerHeader>
+                      <DrawerTitle className="font-comfortaa">
+                        Pengaturan
+                      </DrawerTitle>
+                    </DrawerHeader>
+                    <div className="p-4 space-y-4">
+                      <div>
+                        <p className="text-sm text-awqaf-foreground-secondary font-comfortaa mb-2">
+                          Ukuran Font
+                        </p>
+                        <div className="flex gap-2">
+                          {(["sm", "md", "lg"] as const).map((size) => (
+                            <Button
+                              key={size}
+                              variant={
+                                fontSize === size ? "default" : "outline"
+                              }
+                              size="sm"
+                              onClick={() => setFontSize(size)}
+                              className="font-comfortaa"
+                            >
+                              {size === "sm"
+                                ? "Kecil"
+                                : size === "md"
+                                ? "Sedang"
+                                : "Besar"}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="text-sm text-awqaf-foreground-secondary font-comfortaa mb-2">
+                          Terjemahan
+                        </p>
+                        <div className="flex gap-2">
+                          <Button
+                            variant={showTranslation ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setShowTranslation(true)}
+                            className="font-comfortaa"
+                          >
+                            Tampilkan
+                          </Button>
+                          <Button
+                            variant={!showTranslation ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setShowTranslation(false)}
+                            className="font-comfortaa"
+                          >
+                            Sembunyikan
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </DrawerContent>
+                </Drawer>
               </div>
             </div>
           </div>
@@ -307,6 +383,21 @@ export default function SurahDetailPage() {
                       </p>
                     </div>
 
+                    {/* Latin (Transliteration) */}
+                    <div className="mb-2">
+                      <p
+                        className={`text-awqaf-foreground-secondary font-comfortaa italic ${
+                          fontSize === "sm"
+                            ? "text-sm"
+                            : fontSize === "md"
+                            ? "text-base"
+                            : "text-lg"
+                        }`}
+                      >
+                        {verse.latin}
+                      </p>
+                    </div>
+
                     {/* Translation */}
                     {showTranslation && (
                       <div className="mb-3">
@@ -359,41 +450,7 @@ export default function SurahDetailPage() {
           ))}
         </div>
 
-        {/* Settings Panel */}
-        {showTranslation && (
-          <Card className="border-awqaf-border-light">
-            <CardContent className="p-4">
-              <h3 className="font-semibold text-card-foreground font-comfortaa mb-3">
-                Pengaturan
-              </h3>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="text-sm text-awqaf-foreground-secondary font-comfortaa mb-2 block">
-                    Ukuran Font
-                  </label>
-                  <div className="flex gap-2">
-                    {(["sm", "md", "lg"] as const).map((size) => (
-                      <Button
-                        key={size}
-                        variant={fontSize === size ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setFontSize(size)}
-                        className="font-comfortaa"
-                      >
-                        {size === "sm"
-                          ? "Kecil"
-                          : size === "md"
-                          ? "Sedang"
-                          : "Besar"}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        {/* Settings moved to Drawer */}
       </main>
     </div>
   );

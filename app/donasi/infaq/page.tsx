@@ -60,7 +60,7 @@ export default function InfaqPage() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-gradient-to-r from-info to-info/80 text-white">
-        <div className="container mx-auto px-4 py-6">
+        <div className="max-w-md mx-auto px-4 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Link href="/donasi">
               <Button
@@ -87,7 +87,7 @@ export default function InfaqPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="max-w-md mx-auto px-4 py-6">
         {/* Info Section */}
         <Card className="border-awqaf-border-light mb-6">
           <CardContent className="p-6">

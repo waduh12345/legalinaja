@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
   BookOpen,
   Search,
   Sun,
@@ -295,9 +302,15 @@ const doaDzikirData: DoaDzikir[] = [
 
 export default function DoaDzikirPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedTimes, setSelectedTimes] = useState<
+    Set<NonNullable<DoaDzikir["time"]>>
+  >(new Set());
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -315,17 +328,24 @@ export default function DoaDzikirPage() {
     );
   }, [favorites]);
 
+  // Debounce search input
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
   // Filter doa and dzikir based on search and category
   const filteredDoaDzikir = useMemo(() => {
     let filtered = doaDzikirData;
 
-    if (searchQuery) {
+    if (debouncedQuery) {
+      const q = debouncedQuery.toLowerCase();
       filtered = filtered.filter(
         (item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.arabic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.latin.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.translation.toLowerCase().includes(searchQuery.toLowerCase())
+          item.title.toLowerCase().includes(q) ||
+          item.arabic.toLowerCase().includes(q) ||
+          item.latin.toLowerCase().includes(q) ||
+          item.translation.toLowerCase().includes(q)
       );
     }
 
@@ -333,8 +353,31 @@ export default function DoaDzikirPage() {
       filtered = filtered.filter((item) => item.category === selectedCategory);
     }
 
+    if (selectedTimes.size > 0) {
+      filtered = filtered.filter(
+        (item) => item.time && selectedTimes.has(item.time)
+      );
+    }
+
+    if (favoritesOnly) {
+      filtered = filtered.filter((item) => favorites.has(item.id));
+    }
+
     return filtered;
-  }, [searchQuery, selectedCategory]);
+  }, [
+    debouncedQuery,
+    selectedCategory,
+    selectedTimes,
+    favoritesOnly,
+    favorites,
+  ]);
+
+  const clearAllFilters = () => {
+    setSelectedCategory(null);
+    setSelectedTimes(new Set());
+    setFavoritesOnly(false);
+    setSearchQuery("");
+  };
 
   const handleToggleFavorite = (itemId: string) => {
     setFavorites((prev) => {
@@ -430,63 +473,148 @@ export default function DoaDzikirPage() {
       </header>
 
       <main className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Search */}
-        <Card className="border-awqaf-border-light">
-          <CardContent className="p-4">
+        {/* Search + Sticky chips */}
+        <Card className="border-awqaf-border-light sticky top-[68px] z-20">
+          <CardContent className="p-3 space-y-3">
+            {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-awqaf-foreground-secondary" />
               <Input
-                placeholder="Cari doa atau dzikir..."
+                placeholder="Cari judul, arab, latin, terjemahan..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 font-comfortaa"
               />
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Categories */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-awqaf-primary font-comfortaa">
-            Kategori
-          </h2>
-
-          <div className="grid grid-cols-2 gap-3">
-            {categories.map((category) => {
-              const IconComponent = category.icon;
-              return (
-                <Card
+            {/* Chips */}
+            <div className="flex gap-2 overflow-x-auto pb-1 mobile-scroll">
+              {/* Categories */}
+              {categories.map((category) => (
+                <Button
                   key={category.id}
-                  className={`border-awqaf-border-light hover:shadow-md transition-all duration-200 cursor-pointer ${
-                    selectedCategory === category.id
-                      ? "ring-2 ring-awqaf-primary"
-                      : ""
-                  }`}
+                  variant={
+                    selectedCategory === category.id ? "default" : "outline"
+                  }
+                  size="sm"
+                  className="flex-shrink-0"
                   onClick={() =>
                     setSelectedCategory(
                       selectedCategory === category.id ? null : category.id
                     )
                   }
                 >
-                  <CardContent className="p-4 text-center">
-                    <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <IconComponent className="w-6 h-6 text-awqaf-primary" />
-                    </div>
-                    <h3 className="font-semibold text-card-foreground font-comfortaa text-sm">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs text-awqaf-foreground-secondary font-comfortaa mt-1">
-                      {category.description}
+                  {category.name}
+                </Button>
+              ))}
+
+              {/* Quick time filters */}
+              {(["morning", "evening", "anytime"] as const).map((t) => (
+                <Button
+                  key={t}
+                  variant={selectedTimes.has(t) ? "default" : "outline"}
+                  size="sm"
+                  className="flex-shrink-0"
+                  onClick={() =>
+                    setSelectedTimes((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(t)) next.delete(t);
+                      else next.add(t);
+                      return next;
+                    })
+                  }
+                >
+                  {t === "morning"
+                    ? "Pagi"
+                    : t === "evening"
+                    ? "Petang"
+                    : "Kapan saja"}
+                </Button>
+              ))}
+
+              {/* Favorites only */}
+              <Button
+                variant={favoritesOnly ? "default" : "outline"}
+                size="sm"
+                className="flex-shrink-0"
+                onClick={() => setFavoritesOnly((v) => !v)}
+              >
+                <Heart className="w-4 h-4 mr-1" /> Favorit
+              </Button>
+
+              {/* Advanced filter drawer */}
+              <Drawer open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <DrawerTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex-shrink-0">
+                    Filter Lanjutan
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="border-awqaf-border-light">
+                  <DrawerHeader>
+                    <DrawerTitle className="font-comfortaa">
+                      Filter Lanjutan
+                    </DrawerTitle>
+                  </DrawerHeader>
+                  <div className="p-4 space-y-4">
+                    {/* Info: saat ini tidak ada filter lanjutan lain */}
+                    <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
+                      Tidak ada filter tambahan untuk saat ini.
                     </p>
-                    <Badge variant="secondary" className="text-xs mt-2">
-                      {category.count} doa
+                    <div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={clearAllFilters}
+                      >
+                        <RefreshCw className="w-4 h-4 mr-1" /> Reset Semua
+                      </Button>
+                    </div>
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </div>
+
+            {/* Active filter summary */}
+            {(selectedCategory ||
+              selectedTimes.size > 0 ||
+              favoritesOnly ||
+              debouncedQuery) && (
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {debouncedQuery && (
+                    <Badge variant="secondary" className="text-xs">
+                      Cari: “{debouncedQuery}”
                     </Badge>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
+                  )}
+                  {selectedCategory && (
+                    <Badge variant="secondary" className="text-xs">
+                      {categories.find((c) => c.id === selectedCategory)?.name}
+                    </Badge>
+                  )}
+                  {Array.from(selectedTimes).map((t) => (
+                    <Badge key={t} variant="secondary" className="text-xs">
+                      {t === "morning"
+                        ? "Pagi"
+                        : t === "evening"
+                        ? "Petang"
+                        : "Kapan saja"}
+                    </Badge>
+                  ))}
+                  {favoritesOnly && (
+                    <Badge variant="secondary" className="text-xs">
+                      Favorit
+                    </Badge>
+                  )}
+                </div>
+                <Button variant="ghost" size="sm" onClick={clearAllFilters}>
+                  <RefreshCw className="w-4 h-4 mr-1" /> Reset
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Categories grid removed; replaced by sticky chip bar */}
 
         {/* Doa & Dzikir List */}
         <div className="space-y-4">

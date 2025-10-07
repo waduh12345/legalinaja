@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, Trash2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import LocationSelector from "./components/LocationSelector";
 import PrayerProgress from "./components/PrayerProgress";
@@ -35,8 +35,6 @@ export default function PrayerTrackerPage() {
     isLoading,
     setSelectedLocation,
     togglePrayer,
-    clearAllData,
-    exportData,
     todayData,
     canCheckPrayer,
   } = usePrayerTracker();
@@ -59,21 +57,42 @@ export default function PrayerTrackerPage() {
         isha: parseTimeToMinutes(prayerTimes.isha),
       };
 
-      const prayers = [
-        { name: "Subuh", time: prayerTimesInMinutes.fajr, key: "fajr" },
-        { name: "Dzuhur", time: prayerTimesInMinutes.dhuhr, key: "dhuhr" },
-        { name: "Ashar", time: prayerTimesInMinutes.asr, key: "asr" },
-        { name: "Maghrib", time: prayerTimesInMinutes.maghrib, key: "maghrib" },
-        { name: "Isya", time: prayerTimesInMinutes.isha, key: "isha" },
-      ];
+      // Handle after Isya until before Fajr as "isha"
+      if (
+        currentTime >= prayerTimesInMinutes.isha ||
+        currentTime < prayerTimesInMinutes.fajr
+      ) {
+        setCurrentPrayer("isha");
+        return;
+      }
 
-      // Find current prayer
-      for (let i = 0; i < prayers.length; i++) {
-        const nextPrayer = prayers[(i + 1) % prayers.length];
-        if (currentTime >= prayers[i].time && currentTime < nextPrayer.time) {
-          setCurrentPrayer(prayers[i].key);
-          break;
-        }
+      if (
+        currentTime >= prayerTimesInMinutes.fajr &&
+        currentTime < prayerTimesInMinutes.dhuhr
+      ) {
+        setCurrentPrayer("fajr");
+        return;
+      }
+      if (
+        currentTime >= prayerTimesInMinutes.dhuhr &&
+        currentTime < prayerTimesInMinutes.asr
+      ) {
+        setCurrentPrayer("dhuhr");
+        return;
+      }
+      if (
+        currentTime >= prayerTimesInMinutes.asr &&
+        currentTime < prayerTimesInMinutes.maghrib
+      ) {
+        setCurrentPrayer("asr");
+        return;
+      }
+      if (
+        currentTime >= prayerTimesInMinutes.maghrib &&
+        currentTime < prayerTimesInMinutes.isha
+      ) {
+        setCurrentPrayer("maghrib");
+        return;
       }
     }
   }, [prayerTimes]);
@@ -94,19 +113,7 @@ export default function PrayerTrackerPage() {
     }
   };
 
-  const handleClearData = () => {
-    if (
-      confirm(
-        "Apakah Anda yakin ingin menghapus semua data progress sholat? Tindakan ini tidak dapat dibatalkan."
-      )
-    ) {
-      clearAllData();
-    }
-  };
-
-  const handleExportData = () => {
-    exportData();
-  };
+  // removed clear/export handlers per requirements
 
   const parseTimeToMinutes = (time: string): number => {
     const [hours, minutes] = time.split(":").map(Number);
@@ -152,24 +159,7 @@ export default function PrayerTrackerPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleExportData}
-                  className="w-10 h-10 p-0 rounded-full bg-accent-100 hover:bg-accent-200 hover:text-awqaf-primary transition-colors duration-200"
-                >
-                  <Download className="w-5 h-5 text-awqaf-primary" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleClearData}
-                  className="w-10 h-10 p-0 rounded-full bg-accent-100 hover:bg-accent-200 hover:text-error transition-colors duration-200"
-                >
-                  <Trash2 className="w-5 h-5 text-awqaf-primary" />
-                </Button>
-              </div>
+              <div className="flex items-center gap-2"></div>
             </div>
           </div>
         </div>
