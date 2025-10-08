@@ -82,7 +82,7 @@ export default function ProgressWidget() {
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-info" />
                 <span className="text-sm font-medium text-card-foreground font-comfortaa">
-                  Al-Qur'an
+                  Al-Qur&apos;an
                 </span>
               </div>
               <span className="text-sm text-awqaf-foreground-secondary font-comfortaa">
@@ -107,9 +107,9 @@ export default function ProgressWidget() {
         {/* Motivational Message */}
         <div className="mt-4 p-3 bg-accent-50 rounded-lg border border-accent-100">
           <p className="text-xs text-awqaf-foreground-secondary font-comfortaa text-center">
-            "Barangsiapa yang mengerjakan amal saleh, baik laki-laki maupun
+            &quot;Barangsiapa yang mengerjakan amal saleh, baik laki-laki maupun
             perempuan dalam keadaan beriman, maka sesungguhnya akan Kami berikan
-            kepadanya kehidupan yang baik"
+            kepadanya kehidupan yang baik&quot;
           </p>
           <p className="text-xs text-awqaf-primary font-tajawal text-center mt-1">
             - QS. An-Nahl: 97

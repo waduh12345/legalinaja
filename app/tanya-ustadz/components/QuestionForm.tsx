@@ -73,7 +73,7 @@ export default function QuestionForm({ onSubmit }: QuestionFormProps) {
       });
 
       alert("Pertanyaan berhasil dikirim! Ustadz akan menjawab segera.");
-    } catch (error) {
+    } catch {
       alert("Terjadi kesalahan. Silakan coba lagi.");
     } finally {
       setIsSubmitting(false);

@@ -148,7 +148,7 @@ export default function PrayerProgress({
               🎉 Alhamdulillah! Semua sholat hari ini sudah selesai
             </p>
             <p className="text-xs text-success font-tajawal text-center mt-1">
-              "Dan dirikanlah sholat untuk mengingat-Ku"
+              &quot;Dan dirikanlah sholat untuk mengingat-Ku&quot;
             </p>
             <p className="text-xs text-success font-comfortaa text-center">
               - QS. Thaha: 14
@@ -157,8 +157,8 @@ export default function PrayerProgress({
         ) : (
           <div className="mt-4 p-3 bg-accent-50 rounded-lg border border-accent-100">
             <p className="text-xs text-awqaf-foreground-secondary font-comfortaa text-center">
-              "Sesungguhnya sholat itu adalah kewajiban yang ditentukan waktunya
-              atas orang-orang yang beriman"
+              &quot;Sesungguhnya sholat itu adalah kewajiban yang ditentukan waktunya
+              atas orang-orang yang beriman&quot;
             </p>
             <p className="text-xs text-awqaf-primary font-tajawal text-center mt-1">
               - QS. An-Nisa: 103

@@ -154,7 +154,15 @@ export function usePrayerTracker() {
     [getTodayData, updateTodayData]
   );
 
-  const getCurrentPrayer = useCallback((prayerTimes: any) => {
+  interface PrayerTimes {
+    fajr: string;
+    dhuhr: string;
+    asr: string;
+    maghrib: string;
+    isha: string;
+  }
+
+  const getCurrentPrayer = useCallback((prayerTimes: PrayerTimes | null) => {
     if (!prayerTimes) return null;
 
     const now = new Date();
