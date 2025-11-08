@@ -112,8 +112,12 @@ export default function InvoicePage() {
         };
 
         setInvoice(simulatedInvoice);
-      } catch (err: any) {
-        setError(err.message || "Gagal memuat invoice.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Gagal memuat invoice.");
+        }
       } finally {
         setLoading(false);
       }

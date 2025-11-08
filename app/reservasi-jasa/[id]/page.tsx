@@ -236,7 +236,7 @@ export default function DetailReservasiJasaPage() {
                 id="keterangan"
                 placeholder="Berikan info tambahan untuk profesional kami. Contoh: Mohon hubungi saya di 0812... untuk koordinasi dokumen."
                 value={keterangan}
-                onChange={(e: any) => setKeterangan(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setKeterangan(e.target.value)}
                 className="h-24 bg-blue-50 border-blue-200"
               />
             </div>

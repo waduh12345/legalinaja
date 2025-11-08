@@ -5,11 +5,11 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 // 1. Definisikan props untuk Textarea, extend dari React.ComponentProps<"textarea">
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
-
 // 2. Buat komponen Textarea menggunakan React.forwardRef
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+const Textarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>
+>(
   ({ className, ...props }, ref) => {
     return (
       <textarea

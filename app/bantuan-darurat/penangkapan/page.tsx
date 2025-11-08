@@ -117,7 +117,7 @@ export default function PenangkapanPage() {
         <Card className="border-gray-200 bg-white">
           <CardHeader>
             <CardTitle className="text-lg text-blue-800">
-              Langkah yang HARUS Dilakukan (Do's)
+              Langkah yang HARUS Dilakukan (Do&apos;s)
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -133,7 +133,7 @@ export default function PenangkapanPage() {
         <Card className="border-gray-200 bg-white">
           <CardHeader>
             <CardTitle className="text-lg text-red-700">
-              Hal yang JANGAN Dilakukan (Don'ts)
+              Hal yang JANGAN Dilakukan (Don&apos;ts)
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">

@@ -71,7 +71,7 @@ export default function TermsModal({ isOpen, onOpenChange }: TermsModalProps) {
           </p>
           
           <p className="mt-4">
-            Dengan mencentang kotak "Saya setuju", Anda mengonfirmasi bahwa Anda
+            Dengan mencentang kotak {"Saya setuju"}, Anda mengonfirmasi bahwa Anda
             telah membaca, memahami, dan menyetujui seluruh Syarat & Ketentuan
             ini.
           </p>
