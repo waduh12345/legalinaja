@@ -1,4 +1,4 @@
-# LegalApp - Aplikasi Ibadah Muslim PWA
+# LegalApp - Aplikasi Solusi Hukum Terpercaya PWA
 
 LegalApp adalah aplikasi Progressive Web App (PWA) yang dirancang khusus untuk umat Muslim. Aplikasi ini menyediakan berbagai fitur ibadah seperti jadwal sholat, arah qibla, Al-Quran, dan dzikir.
 

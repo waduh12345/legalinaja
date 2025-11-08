@@ -141,4 +141,4 @@ Untuk menyesuaikan skema warna:
 
 ---
 
-**Skema warna ini dirancang khusus untuk aplikasi ibadah Muslim, memberikan pengalaman yang tenang, elegan, dan mudah dibaca.**
+**Skema warna ini dirancang khusus untuk Aplikasi Solusi Hukum Terpercaya, memberikan pengalaman yang tenang, elegan, dan mudah dibaca.**

@@ -7,7 +7,7 @@ Dokumentasi lengkap untuk component AppLoader yang digunakan untuk menampilkan l
 ### **Visual Elements**
 
 - ✅ **Logo Aplikasi**: Menampilkan logo LegalApp dengan animasi
-- ✅ **Nama Aplikasi**: "LegalApp" dengan subtitle "Aplikasi Ibadah Muslim"
+- ✅ **Nama Aplikasi**: "LegalApp" dengan subtitle "Aplikasi Solusi Hukum Terpercaya"
 - ✅ **Progress Bar**: Indikator loading dengan animasi shimmer
 - ✅ **Loading Text**: Teks yang berubah sesuai progress
 - ✅ **Versi Aplikasi**: Menampilkan versi 1.0.0

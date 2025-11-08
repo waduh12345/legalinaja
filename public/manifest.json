@@ -1,7 +1,7 @@
 {
-  "name": "LegalApp - Aplikasi Ibadah Muslim",
+  "name": "LegalApp - Aplikasi Solusi Hukum Terpercaya",
   "short_name": "LegalApp",
-  "description": "Aplikasi ibadah lengkap untuk umat Muslim dengan jadwal sholat, qibla, Al-Quran dan fitur ibadah lainnya",
+  "description": "LegalApp - Aplikasi Solusi Hukum Terpercaya di Indonesia. Dapatkan akses mudah ke informasi hukum, konsultasi dengan ahli, dan alat bantu hukum praktis untuk kebutuhan Anda sehari-hari.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
