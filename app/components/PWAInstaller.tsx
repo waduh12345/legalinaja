@@ -109,7 +109,7 @@ export default function PWAInstaller() {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold text-gray-900">
-            Install IbadahApp
+            Install LegalApp
           </h3>
           <p className="text-xs text-gray-600 mt-1">
             Install aplikasi untuk akses yang lebih mudah dan fitur offline

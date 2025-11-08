@@ -11,15 +11,105 @@ import {
   Calendar,
   Clock,
   Eye,
-  Navigation,
   BookOpen,
   TrendingUp,
   Star,
+  User, // Ikon header
+  ArrowLeft, // Ikon header
 } from "lucide-react";
 import Link from "next/link";
-import { artikelData, categories, sortOptions } from "./data-artikel";
+import Image from "next/image"; // Impor Image
+import { useRouter } from "next/navigation"; // Impor useRouter
+import NotificationButton from "../components/NotificationButton"; // Impor NotificationButton
+
+// --- DATA DUMMY BARU (HUKUM) ---
+const categories = [
+  "Semua",
+  "Bisnis",
+  "Properti",
+  "Keluarga",
+  "Pidana",
+  "Startup",
+];
+
+const sortOptions = [
+  { label: "Terbaru", value: "newest" },
+  { label: "Terlama", value: "oldest" },
+  { label: "Terpopuler", value: "popular" },
+  { label: "Judul (A-Z)", value: "title" },
+];
+
+const artikelData = [
+  {
+    id: "1",
+    slug: "5-langkah-mendirikan-pt-perorangan",
+    title: "5 Langkah Mudah Mendirikan PT Perorangan di 2025",
+    excerpt:
+      "Pahami syarat dan prosedur terbaru untuk mendirikan PT perorangan tanpa notaris...",
+    category: "Bisnis",
+    tags: ["PT", "Bisnis", "Startup"],
+    readTime: "5 mnt",
+    views: 15200,
+    publishedAt: "2025-11-08T10:00:00Z",
+    featured: true,
+  },
+  {
+    id: "2",
+    slug: "memahami-hukum-waris-perdata-vs-islam",
+    title: "Memahami Perbedaan Hukum Waris Perdata vs. Hukum Waris Islam",
+    excerpt:
+      "Bagaimana pembagian harta waris diatur di Indonesia? Pahami dua sistem hukum yang berlaku...",
+    category: "Keluarga",
+    tags: ["Waris", "Keluarga", "Notaris"],
+    readTime: "7 mnt",
+    views: 23100,
+    publishedAt: "2025-11-07T09:00:00Z",
+    featured: false,
+  },
+  {
+    id: "3",
+    slug: "pentingnya-nda-untuk-startup",
+    title: "Mengapa NDA (Non-Disclosure Agreement) Sangat Penting Untuk Startup?",
+    excerpt:
+      "Jangan sampai ide brilian Anda dicuri. Pelajari pentingnya NDA untuk melindungi aset digital...",
+    category: "Startup",
+    tags: ["NDA", "Startup", "Kontrak"],
+    readTime: "4 mnt",
+    views: 9500,
+    publishedAt: "2025-11-06T14:30:00Z",
+    featured: true,
+  },
+  {
+    id: "4",
+    slug: "apa-yang-harus-dilakukan-saat-ditilang",
+    title: "Apa yang Harus Dilakukan (dan Tidak Dilakukan) Saat Ditilang Polisi?",
+    excerpt:
+      "Ketahui hak dan kewajiban Anda saat menghadapi tilang di jalan agar terhindar dari...",
+    category: "Pidana",
+    tags: ["Tilang", "Polisi", "Pidana"],
+    readTime: "6 mnt",
+    views: 11200,
+    publishedAt: "2025-11-05T11:00:00Z",
+    featured: false,
+  },
+  {
+    id: "5",
+    slug: "prosedur-jual-beli-tanah-ajb",
+    title: "Panduan Lengkap Prosedur Jual Beli Tanah dan Pembuatan AJB",
+    excerpt:
+      "Langkah-langkah aman membeli properti, dari pengecekan sertifikat hingga tanda tangan PPAT.",
+    category: "Properti",
+    tags: ["AJB", "Properti", "PPAT"],
+    readTime: "8 mnt",
+    views: 19800,
+    publishedAt: "2025-11-04T16:00:00Z",
+    featured: false,
+  },
+];
+// --- AKHIR DATA DUMMY ---
 
 export default function ArtikelPage() {
+  const router = useRouter(); // Tambahkan router
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [sortBy, setSortBy] = useState("newest");
@@ -86,52 +176,59 @@ export default function ArtikelPage() {
   const featuredArticles = artikelData.filter((artikel) => artikel.featured);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-accent-50 to-accent-100 pb-20">
-      {/* Header */}
+    // Latar belakang diubah ke brand LegalAja
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 pb-20">
+      {/* Header Diubah ke brand LegalAja */}
       <header className="sticky top-0 z-30">
         <div className="max-w-md mx-auto px-4 py-4">
-          <div className="relative bg-background/90 backdrop-blur-md rounded-2xl border border-awqaf-border-light/50 shadow-lg px-4 py-3">
+          <div className="relative bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200/50 shadow-lg px-4 py-3">
             <div className="flex items-center justify-between">
-              <Link href="/">
+              <div className="flex items-center gap-3">
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="w-10 h-10 p-0 rounded-full hover:bg-accent-100 hover:text-awqaf-primary transition-colors duration-200"
+                  size="icon"
+                  className="-ml-2"
+                  onClick={() => router.back()} // Tombol kembali
                 >
-                  <Navigation className="w-5 h-5" />
+                  <ArrowLeft className="w-5 h-5" />
                 </Button>
-              </Link>
-              <h1 className="text-lg font-bold text-awqaf-primary font-comfortaa">
-                Artikel Islami
-              </h1>
-              <div className="w-10 h-10"></div>
+                <h1 className="text-lg font-bold text-blue-700">Info Hukum</h1>
+              </div>
+              <div className="flex items-center gap-2">
+                <NotificationButton />
+                <Link href="/profile">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-10 h-10 p-0 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-700 hover:text-blue-800 transition-colors duration-200"
+                  >
+                    <User className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Search */}
-        <Card className="border-awqaf-border-light">
-          <CardContent className="p-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-awqaf-foreground-secondary" />
-              <Input
-                placeholder="Cari artikel..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 font-comfortaa"
-              />
-            </div>
-          </CardContent>
-        </Card>
+        {/* Search (Styling LegalAja) */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Cari artikel (misal: 'NDA', 'Waris')..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 h-11 text-base border-gray-300"
+          />
+        </div>
 
-        {/* Featured Articles */}
+        {/* Featured Articles (Styling LegalAja) */}
         {!searchQuery && selectedCategory === "Semua" && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Star className="w-5 h-5 text-awqaf-primary" />
-              <h2 className="text-lg font-semibold text-awqaf-primary font-comfortaa">
+              <Star className="w-5 h-5 text-blue-700" />
+              <h2 className="text-lg font-semibold text-blue-800">
                 Artikel Pilihan
               </h2>
             </div>
@@ -143,29 +240,35 @@ export default function ArtikelPage() {
                   key={artikel.id}
                   href={`/artikel/${artikel.slug}`}
                 >
-                  <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200">
+                  <Card className="border-gray-200 hover:shadow-md transition-all duration-200">
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
-                        <div className="w-16 h-16 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <BookOpen className="w-8 h-8 text-awqaf-primary" />
+                        <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <BookOpen className="w-8 h-8 text-blue-700" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="default" className="text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="text-xs bg-indigo-100 text-indigo-700"
+                            >
                               {artikel.category}
                             </Badge>
-                            <Badge variant="secondary" className="text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="text-xs bg-yellow-100 text-yellow-700"
+                            >
                               <Star className="w-3 h-3 mr-1" />
                               Pilihan
                             </Badge>
                           </div>
-                          <h3 className="font-semibold text-card-foreground font-comfortaa line-clamp-2 mb-2">
+                          <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">
                             {artikel.title}
                           </h3>
-                          <p className="text-sm text-awqaf-foreground-secondary font-comfortaa line-clamp-2 mb-2">
+                          <p className="text-sm text-gray-600 line-clamp-2 mb-2">
                             {artikel.excerpt}
                           </p>
-                          <div className="flex items-center gap-3 text-xs text-awqaf-foreground-secondary font-comfortaa">
+                          <div className="flex items-center gap-3 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
                               {formatDate(artikel.publishedAt)}
@@ -189,30 +292,32 @@ export default function ArtikelPage() {
           </div>
         )}
 
-        {/* Filters */}
+        {/* Filters (Styling LegalAja) */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-awqaf-primary" />
-            <h2 className="text-lg font-semibold text-awqaf-primary font-comfortaa">
+            <Filter className="w-5 h-5 text-blue-700" />
+            <h2 className="text-lg font-semibold text-blue-800">
               Filter & Urutkan
             </h2>
           </div>
 
           {/* Category Filter */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-card-foreground font-comfortaa">
-              Kategori:
-            </p>
+            <p className="text-sm font-medium text-gray-700">Kategori:</p>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {categories.map((category) => (
                 <Button
                   key={category}
                   variant={
-                    selectedCategory === category ? "default" : "outline"
+                    selectedCategory === category ? "default" : "secondary"
                   }
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className="flex-shrink-0"
+                  className={`flex-shrink-0 ${
+                    selectedCategory === category
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-gray-700 border border-gray-300"
+                  }`}
                 >
                   {category}
                 </Button>
@@ -222,17 +327,21 @@ export default function ArtikelPage() {
 
           {/* Sort Options */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-card-foreground font-comfortaa">
+            <p className="text-sm font-medium text-gray-700">
               Urutkan berdasarkan:
             </p>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {sortOptions.map((option) => (
                 <Button
                   key={option.value}
-                  variant={sortBy === option.value ? "default" : "outline"}
+                  variant={sortBy === option.value ? "default" : "secondary"}
                   size="sm"
                   onClick={() => setSortBy(option.value)}
-                  className="flex-shrink-0"
+                  className={`flex-shrink-0 ${
+                    sortBy === option.value
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-gray-700 border border-gray-300"
+                  }`}
                 >
                   {option.label}
                 </Button>
@@ -241,18 +350,16 @@ export default function ArtikelPage() {
           </div>
         </div>
 
-        {/* Articles List */}
+        {/* Articles List (Styling LegalAja) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-awqaf-primary font-comfortaa">
+            <h2 className="text-lg font-semibold text-blue-800">
               {filteredArtikelData.length} Artikel Ditemukan
             </h2>
             {sortBy === "popular" && (
               <div className="flex items-center gap-1">
-                <TrendingUp className="w-4 h-4 text-awqaf-primary" />
-                <span className="text-xs text-awqaf-foreground-secondary font-comfortaa">
-                  Terpopuler
-                </span>
+                <TrendingUp className="w-4 h-4 text-blue-700" />
+                <span className="text-xs text-gray-500">Terpopuler</span>
               </div>
             )}
           </div>
@@ -264,28 +371,34 @@ export default function ArtikelPage() {
                 key={artikel.id}
                 href={`/artikel/${artikel.slug}`}
               >
-                <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200">
+                <Card className="border-gray-200 hover:shadow-md transition-all duration-200">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
-                      <div className="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <BookOpen className="w-6 h-6 text-awqaf-primary" />
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <BookOpen className="w-6 h-6 text-blue-700" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <Badge variant="secondary" className="text-xs">
+                          <Badge
+                            variant="secondary"
+                            className="text-xs bg-indigo-100 text-indigo-700"
+                          >
                             {artikel.category}
                           </Badge>
                           {artikel.featured && (
-                            <Badge variant="default" className="text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="text-xs bg-yellow-100 text-yellow-700"
+                            >
                               <Star className="w-3 h-3 mr-1" />
                               Pilihan
                             </Badge>
                           )}
                         </div>
-                        <h3 className="font-semibold text-card-foreground font-comfortaa line-clamp-2 mb-2">
+                        <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">
                           {artikel.title}
                         </h3>
-                        <p className="text-sm text-awqaf-foreground-secondary font-comfortaa line-clamp-2 mb-3">
+                        <p className="text-sm text-gray-600 line-clamp-2 mb-3">
                           {artikel.excerpt}
                         </p>
 
@@ -295,20 +408,23 @@ export default function ArtikelPage() {
                             <Badge
                               key={tag}
                               variant="outline"
-                              className="text-xs"
+                              className="text-xs text-gray-600 border-gray-300"
                             >
                               {tag}
                             </Badge>
                           ))}
                           {artikel.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge
+                              variant="outline"
+                              className="text-xs text-gray-600 border-gray-300"
+                            >
                               +{artikel.tags.length - 3}
                             </Badge>
                           )}
                         </div>
 
                         {/* Meta Info */}
-                        <div className="flex items-center justify-between text-xs text-awqaf-foreground-secondary font-comfortaa">
+                        <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center gap-3">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
@@ -333,13 +449,13 @@ export default function ArtikelPage() {
           </div>
 
           {filteredArtikelData.length === 0 && (
-            <Card className="border-awqaf-border-light">
+            <Card className="border-gray-200">
               <CardContent className="p-8 text-center">
-                <BookOpen className="w-12 h-12 text-awqaf-foreground-secondary mx-auto mb-4" />
-                <h3 className="font-semibold text-card-foreground font-comfortaa mb-2">
+                <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="font-semibold text-gray-800 mb-2">
                   Tidak ada artikel ditemukan
                 </h3>
-                <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
+                <p className="text-sm text-gray-500">
                   Coba ubah kata kunci pencarian atau filter
                 </p>
               </CardContent>

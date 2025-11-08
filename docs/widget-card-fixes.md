@@ -1,4 +1,4 @@
-# Widget Card Layout Fixes - IbadahApp PWA
+# Widget Card Layout Fixes - LegalApp PWA
 
 Dokumentasi perbaikan tampilan widget card untuk mengatasi masalah overlap dan terpotong di layar kecil.
 

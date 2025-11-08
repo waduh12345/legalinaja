@@ -1,4 +1,4 @@
-# App Loader Component - IbadahApp PWA
+# App Loader Component - LegalApp PWA
 
 Dokumentasi lengkap untuk component AppLoader yang digunakan untuk menampilkan loading screen saat aplikasi pertama kali dimuat atau saat reload.
 
@@ -6,8 +6,8 @@ Dokumentasi lengkap untuk component AppLoader yang digunakan untuk menampilkan l
 
 ### **Visual Elements**
 
-- ✅ **Logo Aplikasi**: Menampilkan logo IbadahApp dengan animasi
-- ✅ **Nama Aplikasi**: "IbadahApp" dengan subtitle "Aplikasi Ibadah Muslim"
+- ✅ **Logo Aplikasi**: Menampilkan logo LegalApp dengan animasi
+- ✅ **Nama Aplikasi**: "LegalApp" dengan subtitle "Aplikasi Ibadah Muslim"
 - ✅ **Progress Bar**: Indikator loading dengan animasi shimmer
 - ✅ **Loading Text**: Teks yang berubah sesuai progress
 - ✅ **Versi Aplikasi**: Menampilkan versi 1.0.0
@@ -280,7 +280,7 @@ setLoading(true);
 
 ```tsx
 // Check session storage
-console.log(sessionStorage.getItem("ibadahapp-visited"));
+console.log(sessionStorage.getItem("LegalApp-visited"));
 
 // Force show loader
 setLoading(true);
@@ -300,7 +300,7 @@ setLoading(true);
 
 ```tsx
 // Check image path
-<Image src="/ibadahapp-logo.png" alt="Logo" />
+<Image src="/LegalApp-logo.png" alt="Logo" />
 
 // Verify file exists in public folder
 ```
@@ -343,4 +343,4 @@ useEffect(() => {
 
 ---
 
-**AppLoader component memberikan pengalaman loading yang smooth dan menarik untuk IbadahApp PWA, dengan optimasi mobile-first dan integrasi yang seamless dengan sistem PWA!**
+**AppLoader component memberikan pengalaman loading yang smooth dan menarik untuk LegalApp PWA, dengan optimasi mobile-first dan integrasi yang seamless dengan sistem PWA!**

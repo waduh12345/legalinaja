@@ -4,12 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 interface WidgetCardProps {
-  type: "prayer" | "activity";
+  type: "service" | "document";
   title: string;
   subtitle: string;
   time?: string;
-  status?: "current" | "upcoming" | "completed";
-  activity?: string;
+  status?: "current" | "upcoming" | "completed" | "available";
+  activity?: string; // Diubah dari 'document' agar sesuai dengan penggunaan di Home.tsx
   icon: React.ReactNode;
 }
 
@@ -19,71 +19,70 @@ export default function WidgetCard({
   subtitle,
   time,
   status,
-  activity,
+  activity, // Diubah dari 'document'
   icon,
 }: WidgetCardProps) {
+  // Logika untuk teks & warna badge
+  const getStatusText = () => {
+    switch (status) {
+      case "current":
+        return "Sekarang";
+      case "upcoming":
+        return "Berikutnya";
+      case "completed":
+        return "Selesai";
+      case "available":
+        return "Tersedia";
+      default:
+        return null;
+    }
+  };
+
+  const getStatusClasses = () => {
+    switch (status) {
+      case "current":
+        return "bg-green-600 text-white"; // 'success' diubah jadi hijau
+      case "available":
+        return "bg-blue-100 text-blue-700"; // Tema LegalAja
+      case "upcoming":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
-    <Card className="border-awqaf-border-light hover:shadow-md transition-all duration-200 h-full relative">
-      {/* Status Badge - Positioned absolutely at top right */}
+    // Border disesuaikan
+    <Card className="border-gray-200 hover:shadow-md transition-all duration-200 h-full relative">
+      {/* Status Badge - Logika disesuaikan */}
       {status && (
         <Badge
-          variant={status === "current" ? "default" : "secondary"}
+          variant="secondary" // Varian netral
           className={`
             absolute -top-1 -right-1 z-10 text-xs px-2 py-1 shadow-sm
-            ${
-              status === "current"
-                ? "bg-success text-white"
-                : "bg-accent-100 text-awqaf-primary"
-            }
+            ${getStatusClasses()}
           `}
         >
-          {status === "current"
-            ? "Now"
-            : status === "upcoming"
-            ? "Next"
-            : "Done"}
+          {getStatusText()}
         </Badge>
       )}
 
-      <CardContent className="p-3 flex flex-col h-full">
+      <CardContent className="p-2 flex flex-col h-full">
         {/* Header Section */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-8 h-8 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center gap-2">
+          {/* Latar ikon disesuaikan */}
+          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
             {icon}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-card-foreground text-xs font-comfortaa leading-tight">
+            {/* Font & warna disesuaikan */}
+            <h3 className="font-semibold text-gray-800 text-xs leading-tight">
               {title}
             </h3>
-            <p className="text-xs text-awqaf-foreground-secondary font-comfortaa leading-tight mt-0.5">
+            <p className="text-xs text-gray-500 leading-tight mt-0.5">
               {subtitle}
             </p>
           </div>
-        </div>
-
-        {/* Content Section */}
-        <div className="flex-1 flex flex-col justify-center">
-          {type === "prayer" && time && (
-            <div className="text-center">
-              <div className="text-xl font-bold text-awqaf-primary font-comfortaa">
-                {time}
-              </div>
-              <p className="text-xs text-awqaf-foreground-secondary font-comfortaa mt-1">
-                Waktu Sholat
-              </p>
-            </div>
-          )}
-
-          {type === "activity" && activity && (
-            <div className="text-center">
-              <div className="text-sm font-medium text-card-foreground font-comfortaa leading-tight">
-                {activity}
-              </div>
-              <p className="text-xs text-awqaf-foreground-secondary font-comfortaa mt-1">
-                Aktivitas Terakhir
-              </p>
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>

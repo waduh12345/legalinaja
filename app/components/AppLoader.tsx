@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils"; // Pastikan Anda memiliki utility cn
 
 interface AppLoaderProps {
   onLoadComplete?: () => void;
@@ -33,10 +34,10 @@ export default function AppLoader({
     // Update loading text based on progress
     const textInterval = setInterval(() => {
       setLoadingText((prev) => {
-        if (progress < 30) return "Memuat aplikasi...";
-        if (progress < 60) return "Menyiapkan fitur...";
+        if (progress < 30) return "Memuat data hukum...";
+        if (progress < 60) return "Menyiapkan fitur konsultasi...";
         if (progress < 90) return "Hampir selesai...";
-        return "Siap digunakan!";
+        return "Siap membantu Anda!";
       });
     }, 500);
 
@@ -78,51 +79,58 @@ export default function AppLoader({
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-accent-50 to-accent-100">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--accent)_1px,transparent_1px)] bg-[length:20px_20px]"></div>
+    <div
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500",
+        "bg-gradient-to-br from-blue-50 to-indigo-50", // Warna LegalAja
+        !isVisible ? "opacity-0" : "opacity-100" // Kontrol fade-out
+      )}
+    >
+      {/* Background Pattern - Disesuaikan */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-repeat bg-center opacity-30"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white/50 to-indigo-50 mix-blend-overlay"></div>
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 py-8 max-w-sm mx-auto animate-fade-in-up">
         {/* Logo Container */}
         <div className="relative mb-6 animate-scale-in">
-          {/* Logo Background Glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-accent-200 to-accent-300 rounded-full blur-xl opacity-30 scale-110 animate-pulse-glow"></div>
+          {/* Logo Background Glow - Disesuaikan */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-200 to-indigo-300 rounded-full blur-xl opacity-30 scale-110 animate-pulse-glow"></div>
 
           {/* Logo */}
-          <div className="relative w-24 h-24 bg-white rounded-full shadow-lg border-4 border-accent-100 flex items-center justify-center animate-float">
+          <div className="relative w-28 h-28 bg-white rounded-full shadow-lg border-4 border-blue-100 flex items-center justify-center animate-float">
             <Image
-              src="/ibadahapp-logo.png"
-              alt="IbadahApp Logo"
-              width={64}
-              height={64}
-              className="w-16 h-16 object-contain"
+              src="/logo-legal-app.webp" // Memastikan nama logo benar
+              alt="LegalAja Logo"
+              width={80}
+              height={80}
+              className="w-20 h-20 object-contain"
               priority
             />
           </div>
 
-          {/* Rotating Ring */}
-          <div className="absolute inset-0 w-24 h-24 border-4 border-transparent border-t-accent-500 rounded-full animate-rotate-slow"></div>
+          {/* Rotating Ring - Disesuaikan */}
+          <div className="absolute inset-0 w-28 h-28 border-4 border-transparent border-t-blue-500 rounded-full animate-rotate-slow"></div>
         </div>
 
         {/* App Name */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-awqaf-primary font-comfortaa mb-2">
-            IbadahApp
+          <h1 className="text-3xl font-bold text-blue-800 tracking-tight mb-2 font-sans">
+            LegalAja
           </h1>
-          <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
-            Aplikasi Ibadah Muslim
+          <p className="text-sm text-gray-600 font-sans">
+            Aplikasi Solusi Hukum Terpercaya
           </p>
         </div>
 
         {/* Loading Progress */}
         <div className="w-full max-w-xs mb-6">
-          {/* Progress Bar */}
-          <div className="relative w-full h-2 bg-accent-100 rounded-full overflow-hidden">
+          {/* Progress Bar - Disesuaikan */}
+          <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent-500 to-accent-600 rounded-full transition-all duration-300 ease-out"
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${Math.min(progress, 100)}%` }}
             >
               {/* Shimmer Effect */}
@@ -130,23 +138,23 @@ export default function AppLoader({
             </div>
           </div>
 
-          {/* Progress Text */}
+          {/* Progress Text - Disesuaikan */}
           <div className="flex justify-between items-center mt-2">
-            <span className="text-xs text-awqaf-foreground-secondary font-comfortaa">
+            <span className="text-xs text-gray-500 font-sans">
               {loadingText}
             </span>
-            <span className="text-xs font-semibold text-awqaf-primary font-comfortaa">
+            <span className="text-xs font-semibold text-blue-700 font-sans">
               {Math.round(progress)}%
             </span>
           </div>
         </div>
 
-        {/* Loading Dots Animation */}
+        {/* Loading Dots Animation - Disesuaikan */}
         <div className="flex space-x-2 mb-6">
           {[0, 1, 2].map((index) => (
             <div
               key={index}
-              className="w-2 h-2 bg-accent-500 rounded-full animate-bounce"
+              className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce"
               style={{
                 animationDelay: `${index * 0.2}s`,
                 animationDuration: "1s",
@@ -155,29 +163,14 @@ export default function AppLoader({
           ))}
         </div>
 
-        {/* App Version */}
+        {/* App Version - Disesuaikan */}
         <div className="text-center">
-          <p className="text-xs text-awqaf-foreground-tertiary font-comfortaa">
-            Versi 1.0.0
-          </p>
-          <p className="text-xs text-awqaf-foreground-tertiary font-comfortaa mt-1">
-            Dibuat dengan ❤️ untuk umat Muslim
+          <p className="text-xs text-gray-400 font-sans">Versi 1.0.0</p>
+          <p className="text-xs text-gray-400 font-sans mt-1">
+            Dibuat dengan ❤️ untuk Masyarakat Indonesia
           </p>
         </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute top-4 left-4 w-8 h-8 border-2 border-accent-200 rounded-full opacity-20"></div>
-        <div className="absolute top-8 right-6 w-6 h-6 border-2 border-accent-300 rounded-full opacity-20"></div>
-        <div className="absolute bottom-8 left-6 w-4 h-4 border-2 border-accent-200 rounded-full opacity-20"></div>
-        <div className="absolute bottom-4 right-4 w-10 h-10 border-2 border-accent-300 rounded-full opacity-20"></div>
       </div>
-
-      {/* Fade Out Overlay */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br from-accent-50 to-accent-100 transition-opacity duration-500 ${
-          !isVisible ? "opacity-0" : "opacity-100"
-        }`}
-      ></div>
     </div>
   );
 }

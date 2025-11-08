@@ -1,6 +1,6 @@
 # Contoh Penggunaan Skema Warna AWQAF-inspired
 
-Dokumentasi ini berisi contoh-contoh praktis penggunaan skema warna AWQAF-inspired dalam komponen IbadahApp.
+Dokumentasi ini berisi contoh-contoh praktis penggunaan skema warna AWQAF-inspired dalam komponen LegalApp.
 
 ## 🎨 **Contoh Komponen dengan Skema Warna**
 
@@ -145,7 +145,7 @@ export function NavigationMenu() {
     <nav className="bg-card border-b border-awqaf-light">
       <div className="flex items-center space-x-4 p-4">
         <h1 className="text-xl font-bold text-awqaf-primary font-comfortaa">
-          IbadahApp
+          LegalApp
         </h1>
         <div className="flex space-x-2">
           <Button

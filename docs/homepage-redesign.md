@@ -1,12 +1,12 @@
-# Homepage Redesign - IbadahApp PWA
+# Homepage Redesign - LegalApp PWA
 
-Dokumentasi lengkap untuk redesign homepage IbadahApp yang lebih native mobile dengan struktur yang lebih baik.
+Dokumentasi lengkap untuk redesign homepage LegalApp yang lebih native mobile dengan struktur yang lebih baik.
 
 ## 🎯 **Fitur Baru Homepage**
 
 ### **1. Header Redesign**
 
-- ✅ **Logo IbadahApp**: Logo aplikasi di sebelah kiri dengan border accent
+- ✅ **Logo LegalApp**: Logo aplikasi di sebelah kiri dengan border accent
 - ✅ **Tanggal Hijriah**: Tanggal hijriah otomatis di bawah nama aplikasi
 - ✅ **Tombol Search**: Tombol search di sebelah kanan untuk pencarian
 - ✅ **Native Feel**: Header tanpa background putih penuh, lebih transparan
@@ -339,7 +339,7 @@ import { Badge } from "@/components/ui/badge";
 
 ---
 
-**Homepage redesign memberikan pengalaman yang lebih native dan engaging untuk IbadahApp PWA, dengan struktur yang lebih baik dan fitur-fitur yang lebih lengkap!** 🌟
+**Homepage redesign memberikan pengalaman yang lebih native dan engaging untuk LegalApp PWA, dengan struktur yang lebih baik dan fitur-fitur yang lebih lengkap!** 🌟
 
 ### **Key Improvements:**
 

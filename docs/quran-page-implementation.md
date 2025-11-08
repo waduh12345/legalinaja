@@ -1,4 +1,4 @@
-# Quran Page Implementation - IbadahApp PWA
+# Quran Page Implementation - LegalApp PWA
 
 Dokumentasi implementasi halaman Quran dengan fitur lengkap untuk membaca Al-Qur'an dan terjemahan dalam bahasa Indonesia.
 

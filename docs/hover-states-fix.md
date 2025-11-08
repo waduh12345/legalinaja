@@ -1,4 +1,4 @@
-# Hover States Fix - IbadahApp PWA
+# Hover States Fix - LegalApp PWA
 
 Dokumentasi perbaikan hover states pada tombol dan card untuk memastikan text tetap terlihat dengan baik saat hover.
 

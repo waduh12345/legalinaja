@@ -15,12 +15,12 @@ export function useAppLoader(
 
   useEffect(() => {
     // Check if this is the first visit or a reload
-    const hasVisited = sessionStorage.getItem("ibadahapp-visited");
+    const hasVisited = sessionStorage.getItem("LegalApp-visited");
 
     if (!hasVisited) {
       // First visit - show loader
       setIsLoading(true);
-      sessionStorage.setItem("ibadahapp-visited", "true");
+      sessionStorage.setItem("LegalApp-visited", "true");
     } else {
       // Returning visit - check if it's a reload
       const isReload = performance.navigation?.type === 1; // TYPE_RELOAD

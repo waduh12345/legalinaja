@@ -1,6 +1,6 @@
-# Search Functionality - IbadahApp PWA
+# Search Functionality - LegalApp PWA
 
-Dokumentasi implementasi fitur search di header untuk mencari semua yang ada di aplikasi IbadahApp menggunakan combobox dari shadcn/ui.
+Dokumentasi implementasi fitur search di header untuk mencari semua yang ada di aplikasi LegalApp menggunakan combobox dari shadcn/ui.
 
 ## 🎯 **Fitur Search yang Diimplementasikan**
 
@@ -315,7 +315,7 @@ const handleSelect = (href: string) => {
 
 ---
 
-**Search functionality memberikan pengalaman pencarian yang komprehensif dan user-friendly untuk semua konten di IbadahApp!** 🌟
+**Search functionality memberikan pengalaman pencarian yang komprehensif dan user-friendly untuk semua konten di LegalApp!** 🌟
 
 ### **Key Benefits:**
 

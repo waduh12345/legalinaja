@@ -1,4 +1,4 @@
-# Widget Card Badge Redesign - IbadahApp PWA
+# Widget Card Badge Redesign - LegalApp PWA
 
 Dokumentasi redesign badge pada widget card untuk tampilan yang lebih modern dan tidak mengganggu konten.
 

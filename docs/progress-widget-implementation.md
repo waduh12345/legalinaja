@@ -1,4 +1,4 @@
-# Progress Widget Implementation - IbadahApp PWA
+# Progress Widget Implementation - LegalApp PWA
 
 Dokumentasi implementasi ProgressWidget yang span 2 kolom untuk menampilkan progress sholat dan bacaan Al-Qur'an di halaman index.
 

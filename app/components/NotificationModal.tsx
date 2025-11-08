@@ -15,102 +15,69 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  Info,
   Star,
   Trash2,
   CheckCheck,
+  FileCheck, // Ikon baru
+  CreditCard, // Ikon baru
 } from "lucide-react";
 
+// Tipe notifikasi diubah
 interface Notification {
   id: string;
   title: string;
   message: string;
-  type: "info" | "reminder" | "achievement" | "system";
+  type: "appointment" | "document" | "payment" | "system";
   isRead: boolean;
   createdAt: string;
-  icon?: string;
 }
 
+// Data notifikasi disesuaikan untuk LegalAja
 const dummyNotifications: Notification[] = [
   {
     id: "1",
-    title: "Waktu Sholat Dzuhur",
+    title: "Konsultasi Akan Datang",
     message:
-      "Waktu sholat Dzuhur akan dimulai dalam 15 menit. Siapkan diri untuk sholat berjamaah.",
-    type: "reminder",
+      "Jadwal konsultasi Anda dengan Dr. Budi Santoso, S.H. akan dimulai dalam 15 menit.",
+    type: "appointment",
     isRead: false,
-    createdAt: "2024-01-15T12:00:00Z",
-    icon: "🕌",
+    createdAt: "2025-11-09T10:45:00Z", // (Waktu disesuaikan agar relevan)
   },
   {
     id: "2",
-    title: "Pencapaian Baru!",
+    title: "Dokumen Telah Direview",
     message:
-      "Selamat! Anda telah menyelesaikan 7 hari berturut-turut membaca Al-Quran. Teruskan semangatnya!",
-    type: "achievement",
+      "Jasa 'Review Kontrak NDA v1.2' Anda telah selesai. Silakan periksa hasilnya.",
+    type: "document",
     isRead: false,
-    createdAt: "2024-01-15T10:30:00Z",
-    icon: "🏆",
+    createdAt: "2025-11-09T08:30:00Z",
   },
   {
     id: "3",
-    title: "Artikel Baru Tersedia",
+    title: "Pembayaran Berhasil",
     message:
-      "Artikel 'Keutamaan Sholat Berjamaah di Masjid' telah dipublikasi. Baca sekarang untuk menambah ilmu.",
-    type: "info",
+      "Pembayaran untuk invoice LJ-DOC-1-123456 (Template Sewa) telah lunas.",
+    type: "payment",
     isRead: true,
-    createdAt: "2024-01-15T09:15:00Z",
-    icon: "📚",
+    createdAt: "2025-11-08T14:15:00Z",
   },
   {
     id: "4",
-    title: "Pengingat Puasa Sunnah",
+    title: "Reservasi Jasa Dikonfirmasi",
     message:
-      "Besok adalah hari Senin. Jangan lupa untuk berpuasa sunnah Senin Kamis.",
-    type: "reminder",
+      "Jasa 'Pendirian PT' Anda telah dikonfirmasi oleh Notaris Siti Aminah, S.H.",
+    type: "appointment",
     isRead: false,
-    createdAt: "2024-01-15T08:00:00Z",
-    icon: "🌙",
+    createdAt: "2025-11-08T11:00:00Z",
   },
   {
     id: "5",
-    title: "Update Aplikasi",
+    title: "Update Kebijakan Privasi",
     message:
-      "Versi terbaru IbadahApp telah tersedia dengan fitur kalender hijriyah yang lebih akurat.",
+      "Kami telah memperbarui kebijakan privasi kami. Silakan tinjau untuk informasi lebih lanjut.",
     type: "system",
     isRead: true,
-    createdAt: "2024-01-14T16:45:00Z",
-    icon: "🔄",
-  },
-  {
-    id: "6",
-    title: "Dzikir Pagi",
-    message:
-      "Waktunya untuk dzikir pagi. Mari mulai hari dengan mengingat Allah SWT.",
-    type: "reminder",
-    isRead: false,
-    createdAt: "2024-01-14T06:00:00Z",
-    icon: "☀️",
-  },
-  {
-    id: "7",
-    title: "Hadist Harian",
-    message:
-      "Hadist hari ini: 'Barangsiapa beriman kepada Allah dan hari akhir, hendaklah dia berkata baik atau diam.'",
-    type: "info",
-    isRead: true,
-    createdAt: "2024-01-14T05:30:00Z",
-    icon: "📖",
-  },
-  {
-    id: "8",
-    title: "Target Bulanan Tercapai",
-    message:
-      "Selamat! Anda telah mencapai target membaca 1 juz Al-Quran bulan ini. Pertahankan konsistensinya!",
-    type: "achievement",
-    isRead: false,
-    createdAt: "2024-01-13T20:00:00Z",
-    icon: "🎯",
+    createdAt: "2025-11-07T16:45:00Z",
   },
 ];
 
@@ -136,7 +103,8 @@ export default function NotificationModal({
   // Load notifications from localStorage
   useEffect(() => {
     if (mounted) {
-      const savedNotifications = localStorage.getItem("notifications");
+      // Key diubah ke legalaja_notifications
+      const savedNotifications = localStorage.getItem("legalaja_notifications");
       if (savedNotifications) {
         try {
           setNotifications(JSON.parse(savedNotifications));
@@ -151,7 +119,10 @@ export default function NotificationModal({
   useEffect(() => {
     if (mounted) {
       try {
-        localStorage.setItem("notifications", JSON.stringify(notifications));
+        localStorage.setItem(
+          "legalaja_notifications",
+          JSON.stringify(notifications)
+        );
       } catch (error) {
         console.error("Error saving notifications:", error);
       }
@@ -194,19 +165,23 @@ export default function NotificationModal({
     );
   };
 
-  // Get type icon and color
+  // Get type icon and color (Disesuaikan untuk LegalAja)
   const getTypeInfo = (type: string) => {
     switch (type) {
-      case "reminder":
+      case "appointment":
         return { icon: Clock, color: "text-blue-600", bgColor: "bg-blue-100" };
-      case "achievement":
+      case "document":
         return {
-          icon: Star,
-          color: "text-yellow-600",
-          bgColor: "bg-yellow-100",
+          icon: FileCheck,
+          color: "text-green-600",
+          bgColor: "bg-green-100",
         };
-      case "info":
-        return { icon: Info, color: "text-green-600", bgColor: "bg-green-100" };
+      case "payment":
+        return {
+          icon: CreditCard,
+          color: "text-indigo-600",
+          bgColor: "bg-indigo-100",
+        };
       case "system":
         return {
           icon: AlertCircle,
@@ -227,6 +202,9 @@ export default function NotificationModal({
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
     const diffMinutes = Math.floor(diffTime / (1000 * 60));
 
+    if (diffMinutes < 1) {
+      return "Baru saja";
+    }
     if (diffMinutes < 60) {
       return `${diffMinutes} menit lalu`;
     } else if (diffHours < 24) {
@@ -246,11 +224,11 @@ export default function NotificationModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto max-h-[80vh] flex flex-col">
+      <DialogContent className="max-w-md mx-auto max-h-[80vh] flex flex-col bg-white">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between font-comfortaa">
+          <DialogTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-awqaf-primary" />
+              <Bell className="w-5 h-5 text-blue-700" />
               Notifikasi
               {unreadCount > 0 && (
                 <Badge variant="destructive" className="text-xs">
@@ -263,7 +241,7 @@ export default function NotificationModal({
                 variant="ghost"
                 size="sm"
                 onClick={markAllAsRead}
-                className="text-xs"
+                className="text-xs text-blue-600 hover:text-blue-700"
               >
                 <CheckCheck className="w-4 h-4 mr-1" />
                 Tandai Semua
@@ -278,7 +256,11 @@ export default function NotificationModal({
             variant={filter === "all" ? "default" : "outline"}
             size="sm"
             onClick={() => setFilter("all")}
-            className="flex-1"
+            className={`flex-1 ${
+              filter === "all"
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
           >
             Semua
           </Button>
@@ -286,7 +268,11 @@ export default function NotificationModal({
             variant={filter === "unread" ? "default" : "outline"}
             size="sm"
             onClick={() => setFilter("unread")}
-            className="flex-1"
+            className={`flex-1 ${
+              filter === "unread"
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
           >
             Belum Dibaca
             {unreadCount > 0 && (
@@ -298,16 +284,16 @@ export default function NotificationModal({
         </div>
 
         {/* Notifications List */}
-        <div className="flex-1 overflow-y-auto space-y-3">
+        <div className="flex-1 overflow-y-auto space-y-3 -mr-3 pr-3">
           {filteredNotifications.length === 0 ? (
             <div className="text-center py-8">
-              <Bell className="w-12 h-12 text-awqaf-foreground-secondary mx-auto mb-4" />
-              <h3 className="font-semibold text-card-foreground font-comfortaa mb-2">
+              <Bell className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="font-semibold text-gray-800 mb-2">
                 {filter === "unread"
                   ? "Tidak ada notifikasi baru"
                   : "Belum ada notifikasi"}
               </h3>
-              <p className="text-sm text-awqaf-foreground-secondary font-comfortaa">
+              <p className="text-sm text-gray-500">
                 {filter === "unread"
                   ? "Semua notifikasi telah dibaca"
                   : "Notifikasi akan muncul di sini"}
@@ -321,8 +307,8 @@ export default function NotificationModal({
               return (
                 <Card
                   key={notification.id}
-                  className={`border-awqaf-border-light transition-all duration-200 ${
-                    !notification.isRead ? "bg-accent-50" : ""
+                  className={`border-gray-200 transition-all duration-200 ${
+                    !notification.isRead ? "bg-blue-50" : "bg-white"
                   }`}
                 >
                   <CardContent className="p-4">
@@ -330,37 +316,33 @@ export default function NotificationModal({
                       <div
                         className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${typeInfo.bgColor}`}
                       >
-                        {notification.icon ? (
-                          <span className="text-lg">{notification.icon}</span>
-                        ) : (
-                          <IconComponent
-                            className={`w-5 h-5 ${typeInfo.color}`}
-                          />
-                        )}
+                        <IconComponent
+                          className={`w-5 h-5 ${typeInfo.color}`}
+                        />
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-1">
                           <h3
-                            className={`font-semibold font-comfortaa ${
+                            className={`font-semibold ${
                               !notification.isRead
-                                ? "text-card-foreground"
-                                : "text-awqaf-foreground-secondary"
+                                ? "text-gray-900"
+                                : "text-gray-500"
                             }`}
                           >
                             {notification.title}
                           </h3>
                           {!notification.isRead && (
-                            <div className="w-2 h-2 bg-awqaf-primary rounded-full flex-shrink-0 mt-1"></div>
+                            <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0 mt-1.5 ml-2"></div>
                           )}
                         </div>
 
-                        <p className="text-sm text-awqaf-foreground-secondary font-comfortaa line-clamp-2 mb-2">
+                        <p className="text-sm text-gray-600 line-clamp-2 mb-2">
                           {notification.message}
                         </p>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-awqaf-foreground-secondary font-comfortaa">
+                          <span className="text-xs text-gray-500">
                             {formatDate(notification.createdAt)}
                           </span>
 
@@ -370,7 +352,7 @@ export default function NotificationModal({
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => markAsRead(notification.id)}
-                                className="p-1 h-6 w-6"
+                                className="p-1 h-6 w-6 text-gray-500 hover:text-blue-600"
                               >
                                 <CheckCircle className="w-3 h-3" />
                               </Button>
@@ -381,7 +363,7 @@ export default function NotificationModal({
                               onClick={() =>
                                 deleteNotification(notification.id)
                               }
-                              className="p-1 h-6 w-6"
+                              className="p-1 h-6 w-6 text-gray-500 hover:text-red-600"
                             >
                               <Trash2 className="w-3 h-3" />
                             </Button>

@@ -1,4 +1,4 @@
-# Index Page Hover States Fix - IbadahApp PWA
+# Index Page Hover States Fix - LegalApp PWA
 
 Dokumentasi perbaikan hover states pada button di halaman index untuk memastikan text tetap terlihat dengan baik saat hover.
 

@@ -1,4 +1,4 @@
-# Prayer Times Page Implementation - IbadahApp PWA
+# Prayer Times Page Implementation - LegalApp PWA
 
 Dokumentasi implementasi halaman sholat dengan akses GPS dan jadwal sholat dinamis berdasarkan lokasi user.
 

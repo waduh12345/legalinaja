@@ -223,4 +223,4 @@ Dengan menggunakan `@theme inline` di Tailwind CSS v4, kita tidak perlu lagi mem
 
 ---
 
-**Dengan integrasi theme ini, IbadahApp memiliki sistem warna yang lebih robust, maintainable, dan performant!**
+**Dengan integrasi theme ini, LegalApp memiliki sistem warna yang lebih robust, maintainable, dan performant!**

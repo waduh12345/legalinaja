@@ -1,4 +1,4 @@
-# Icons untuk IbadahApp PWA
+# Icons untuk LegalApp PWA
 
 ## Ukuran Icon yang Diperlukan:
 

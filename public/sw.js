@@ -1,5 +1,5 @@
-// Service Worker untuk IbadahApp PWA
-const CACHE_NAME = 'ibadahapp-v1';
+// Service Worker untuk LegalApp PWA
+const CACHE_NAME = 'LegalApp-v1';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
@@ -85,7 +85,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('IbadahApp - Reminder Sholat', options)
+    self.registration.showNotification('LegalApp - Reminder Sholat', options)
   );
 });
 

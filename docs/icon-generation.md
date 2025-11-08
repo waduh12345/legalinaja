@@ -1,6 +1,6 @@
-# Icon Generation Guide - IbadahApp PWA
+# Icon Generation Guide - LegalApp PWA
 
-Panduan lengkap untuk generate icon-icon PWA yang diperlukan berdasarkan logo utama `ibadahapp-logo.png`.
+Panduan lengkap untuk generate icon-icon PWA yang diperlukan berdasarkan logo utama `LegalApp-logo.png`.
 
 ## 🎯 **Icon yang Diperlukan**
 
@@ -106,7 +106,7 @@ powershell -ExecutionPolicy Bypass -File scripts/generate-icons.ps1
 
 ```
 public/
-├── ibadahapp-logo.png          # Logo utama (source)
+├── LegalApp-logo.png          # Logo utama (source)
 ├── icons/
 │   ├── icon-72x72.png
 │   ├── icon-96x96.png
@@ -311,7 +311,7 @@ powershell -ExecutionPolicy Bypass -File scripts/generate-icons.ps1
 
 ### **Logo Not Found**
 
-- Pastikan `ibadahapp-logo.png` ada di folder `public/`
+- Pastikan `LegalApp-logo.png` ada di folder `public/`
 - Check file permissions
 - Verify file format (PNG, JPG, SVG supported)
 

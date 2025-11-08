@@ -1,4 +1,4 @@
-# Features Page Layout Update - IbadahApp PWA
+# Features Page Layout Update - LegalApp PWA
 
 Dokumentasi update layout halaman `/features` dengan header yang lebih minimalis dan grid layout dua kolom untuk fitur.
 
@@ -27,7 +27,7 @@ Dokumentasi update layout halaman `/features` dengan header yang lebih minimalis
   <BackButton />
   <div>
     <h1>Semua Fitur</h1>
-    <p>Kumpulan fitur lengkap IbadahApp</p>
+    <p>Kumpulan fitur lengkap LegalApp</p>
   </div>
 </div>
 <SearchBar />

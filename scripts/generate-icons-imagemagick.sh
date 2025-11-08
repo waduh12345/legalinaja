@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Icon Generator Script for IbadahApp PWA using ImageMagick
+# Icon Generator Script for LegalApp PWA using ImageMagick
 # 
 # This script generates all required PWA icons from the main logo
 # using ImageMagick (convert command)
@@ -17,13 +17,13 @@ NC='\033[0m' # No Color
 # Paths
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-INPUT_LOGO="$PROJECT_ROOT/public/ibadahapp-logo.png"
+INPUT_LOGO="$PROJECT_ROOT/public/LegalApp-logo.png"
 ICONS_DIR="$PROJECT_ROOT/public/icons"
 
 # Icon sizes required by manifest.json
 declare -a ICON_SIZES=(72 96 128 144 152 192 384 512)
 
-echo -e "${BLUE}🎨 IbadahApp PWA Icon Generator${NC}"
+echo -e "${BLUE}🎨 LegalApp PWA Icon Generator${NC}"
 echo -e "${BLUE}================================${NC}"
 
 # Check if ImageMagick is installed
@@ -38,7 +38,7 @@ fi
 # Check if input logo exists
 if [ ! -f "$INPUT_LOGO" ]; then
     echo -e "${RED}❌ Logo file not found: $INPUT_LOGO${NC}"
-    echo -e "${YELLOW}   Please make sure ibadahapp-logo.png exists in the public folder${NC}"
+    echo -e "${YELLOW}   Please make sure LegalApp-logo.png exists in the public folder${NC}"
     exit 1
 fi
 

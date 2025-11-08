@@ -1,6 +1,6 @@
 {
-  "name": "IbadahApp - Aplikasi Ibadah Muslim",
-  "short_name": "IbadahApp",
+  "name": "LegalApp - Aplikasi Ibadah Muslim",
+  "short_name": "LegalApp",
   "description": "Aplikasi ibadah lengkap untuk umat Muslim dengan jadwal sholat, qibla, Al-Quran dan fitur ibadah lainnya",
   "start_url": "/",
   "display": "standalone",

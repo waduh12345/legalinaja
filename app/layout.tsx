@@ -1,62 +1,56 @@
 import type { Metadata } from "next";
-import { Comfortaa, Tajawal } from "next/font/google";
+import { Inter } from "next/font/google"; // Mengganti font
 import "./globals.css";
 import PWAInstaller from "./components/PWAInstaller";
 import AppWrapper from "./components/AppWrapper";
-import BottomNavigation from "./components/BottomNavigation";
+import MainLayoutWrapper from "./components/MainLayoutWrapper"; // Komponen baru untuk logika layout
 
-const comfortaa = Comfortaa({
-  variable: "--font-comfortaa",
+// Font profesional untuk LegalAja
+const inter = Inter({
+  variable: "--font-sans", // Menggunakan variabel CSS --font-sans
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const tajawal = Tajawal({
-  variable: "--font-tajawal",
-  subsets: ["arabic", "latin"],
-  weight: ["200", "300", "400", "500", "700", "800", "900"],
-  display: "swap",
-});
-
+// Metadata diperbarui untuk LegalAja
 export const metadata: Metadata = {
-  title: "IbadahApp - Aplikasi Ibadah Muslim",
+  title: "LegalAja - Solusi Hukum Instan",
   description:
-    "Aplikasi ibadah lengkap untuk umat Muslim dengan jadwal sholat, qibla, Al-Quran dan fitur ibadah lainnya",
+    "Aplikasi legal-tech untuk konsultasi pengacara, pembuatan dokumen hukum, dan layanan notaris secara on-demand.",
   keywords: [
-    "ibadah",
-    "muslim",
-    "islam",
-    "sholat",
-    "qibla",
-    "quran",
-    "jadwal sholat",
-    "aplikasi islam",
+    "legalaja",
+    "hukum",
+    "legal-tech",
+    "pengacara",
+    "notaris",
+    "konsultasi hukum",
+    "dokumen hukum",
+    "startup",
   ],
-  authors: [{ name: "NadiTechno" }],
-  creator: "NadiTechno",
-  publisher: "NadiTechno",
+  authors: [{ name: "LegalAja Team" }],
+  creator: "LegalAja Team",
+  publisher: "LegalAja",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://ibadahapp.com"),
+  metadataBase: new URL("https://legalaja.id"), // Ganti dengan URL domain Anda
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "IbadahApp - Aplikasi Ibadah Muslim",
+    title: "LegalAja - Solusi Hukum Instan",
     description:
-      "Aplikasi ibadah lengkap untuk umat Muslim dengan jadwal sholat, qibla, Al-Quran dan fitur ibadah lainnya",
-    url: "https://ibadahapp.com",
-    siteName: "IbadahApp",
+      "Konsultasi pengacara, buat dokumen, dan pesan notaris. Semua dalam satu aplikasi.",
+    url: "https://legalaja.id",
+    siteName: "LegalAja",
     images: [
       {
-        url: "/icons/icon-512x512.png",
+        url: "/legalaja/logo-og-512x512.png", // Ganti dengan path logo Anda
         width: 512,
         height: 512,
-        alt: "IbadahApp Logo",
+        alt: "LegalAja Logo",
       },
     ],
     locale: "id_ID",
@@ -64,43 +58,36 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IbadahApp - Aplikasi Ibadah Muslim",
+    title: "LegalAja - Solusi Hukum Instan",
     description:
-      "Aplikasi ibadah lengkap untuk umat Muslim dengan jadwal sholat, qibla, Al-Quran dan fitur ibadah lainnya",
-    images: ["/icons/icon-512x512.png"],
+      "Aplikasi legal-tech untuk konsultasi pengacara, pembuatan dokumen hukum, dan layanan notaris.",
+    images: ["/legalaja/logo-twitter-512x512.png"], // Ganti dengan path logo Anda
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/legalaja/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/legalaja/icon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [
-      { url: "/icons/icon-152x152.png", sizes: "152x152", type: "image/png" },
+      { url: "/legalaja/icon-apple-180x180.png", sizes: "180x180", type: "image/png" },
     ],
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "IbadahApp",
+    title: "LegalAja",
   },
   other: {
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
-    "msapplication-TileColor": "#059669",
-    "theme-color": "#059669",
+    "msapplication-TileColor": "#1D4ED8", // Warna biru brand LegalAja
+    "theme-color": "#1D4ED8", // Warna biru brand LegalAja
   },
 };
 
@@ -109,6 +96,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const themeColor = "#1D4ED8"; // Warna brand LegalAja
+
   return (
     <html lang="id">
       <head>
@@ -116,30 +105,22 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
-        <meta name="theme-color" content="#059669" />
+        <meta name="theme-color" content={themeColor} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="IbadahApp" />
-        <meta name="msapplication-TileColor" content="#059669" />
+        <meta name="apple-mobile-web-app-title" content="LegalAja" />
+        <meta name="msapplication-TileColor" content={themeColor} />
         <meta name="msapplication-tap-highlight" content="no" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="/icons/icon-192x192.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/icons/icon-512x512.png"
-        />
+        <link rel="apple-touch-icon" href="/legalaja/icon-apple-180x180.png" />
+        {/* ... (link ikon lainnya bisa menyusul dari metadata) ... */}
       </head>
-      <body className={`${comfortaa.variable} ${tajawal.variable} antialiased`}>
-        <AppWrapper>{children}</AppWrapper>
-        <BottomNavigation />
+      {/* Menerapkan font Inter */}
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <AppWrapper>
+          {/* MainLayoutWrapper akan menangani logika {children} dan BottomNavigation */}
+          <MainLayoutWrapper>{children}</MainLayoutWrapper>
+        </AppWrapper>
         <PWAInstaller />
         <script
           dangerouslySetInnerHTML={{
@@ -162,4 +143,3 @@ export default function RootLayout({
     </html>
   );
 }
-

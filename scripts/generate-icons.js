@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Icon Generator Script for IbadahApp PWA
+ * Icon Generator Script for LegalApp PWA
  * 
  * This script generates all required PWA icons from the main logo
  * using Node.js with sharp library for image processing
@@ -40,7 +40,7 @@ const shortcutSizes = [
 ];
 
 // Paths
-const inputLogo = path.join(__dirname, '../public/ibadahapp-logo.png');
+const inputLogo = path.join(__dirname, '../public/LegalApp-logo.png');
 const iconsDir = path.join(__dirname, '../public/icons');
 
 async function generateIcons() {
@@ -48,7 +48,7 @@ async function generateIcons() {
     // Check if input logo exists
     if (!fs.existsSync(inputLogo)) {
       console.error('❌ Logo file not found:', inputLogo);
-      console.error('Please make sure ibadahapp-logo.png exists in the public folder');
+      console.error('Please make sure LegalApp-logo.png exists in the public folder');
       process.exit(1);
     }
 

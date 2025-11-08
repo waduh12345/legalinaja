@@ -1,10 +1,10 @@
-# Icon Generator Script for IbadahApp PWA using PowerShell
+# Icon Generator Script for LegalApp PWA using PowerShell
 # 
 # This script generates all required PWA icons from the main logo
 # using PowerShell with .NET System.Drawing
 
 param(
-    [string]$InputLogo = "..\public\ibadahapp-logo.png",
+    [string]$InputLogo = "..\public\LegalApp-logo.png",
     [string]$OutputDir = "..\public\icons"
 )
 
@@ -15,14 +15,14 @@ $Yellow = "Yellow"
 $Blue = "Blue"
 $White = "White"
 
-Write-Host "🎨 IbadahApp PWA Icon Generator" -ForegroundColor $Blue
+Write-Host "🎨 LegalApp PWA Icon Generator" -ForegroundColor $Blue
 Write-Host "================================" -ForegroundColor $Blue
 
 # Check if input logo exists
 $InputPath = Resolve-Path $InputLogo -ErrorAction SilentlyContinue
 if (-not $InputPath) {
     Write-Host "❌ Logo file not found: $InputLogo" -ForegroundColor $Red
-    Write-Host "   Please make sure ibadahapp-logo.png exists in the public folder" -ForegroundColor $Yellow
+    Write-Host "   Please make sure LegalApp-logo.png exists in the public folder" -ForegroundColor $Yellow
     exit 1
 }
 

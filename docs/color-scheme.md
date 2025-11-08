@@ -1,6 +1,6 @@
 # AWQAF-inspired Color Scheme
 
-Skema warna yang terinspirasi dari elemen-elemen tradisional Islam dan AWQAF, memberikan nuansa hangat, elegan, dan spiritual untuk aplikasi IbadahApp.
+Skema warna yang terinspirasi dari elemen-elemen tradisional Islam dan AWQAF, memberikan nuansa hangat, elegan, dan spiritual untuk aplikasi LegalApp.
 
 ## 🎨 **Palette Overview**
 

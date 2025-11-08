@@ -2,45 +2,40 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Clock, BookOpen, GraduationCap, BookMarked } from "lucide-react";
+import {
+  Home,
+  MessageCircle,
+  AlertTriangle,
+  User,
+} from "lucide-react";
 
 interface NavItem {
   href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-  shortLabel: string;
 }
 
+// Navigasi disesuaikan untuk LegalAja
 const navItems: NavItem[] = [
   {
     href: "/",
     label: "Beranda",
     icon: Home,
-    shortLabel: "Home",
   },
   {
-    href: "/sholat",
-    label: "Sholat",
-    icon: Clock,
-    shortLabel: "Prayer",
+    href: "/chat",
+    label: "Chat",
+    icon: MessageCircle,
   },
   {
-    href: "/quran",
-    label: "Al-Qur'an",
-    icon: BookOpen,
-    shortLabel: "Quran",
+    href: "/bantuan-darurat",
+    label: "Bantuan",
+    icon: AlertTriangle,
   },
   {
-    href: "/kajian",
-    label: "Kajian",
-    icon: GraduationCap,
-    shortLabel: "Study",
-  },
-  {
-    href: "/ebook",
-    label: "E-Book",
-    icon: BookMarked,
-    shortLabel: "Books",
+    href: "/profile",
+    label: "Profile",
+    icon: User,
   },
 ];
 
@@ -48,7 +43,8 @@ export default function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-awqaf-border-light safe-area-pb">
+    // Tema disesuaikan: border-gray-200
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-gray-200 safe-area-pb">
       {/* Background blur effect */}
       <div className="absolute inset-0 bg-background/80 backdrop-blur-md"></div>
 
@@ -66,8 +62,8 @@ export default function BottomNavigation() {
                 flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-0 flex-1
                 ${
                   isActive
-                    ? "bg-accent-100 text-awqaf-primary"
-                    : "text-awqaf-foreground-secondary hover:text-awqaf-primary hover:bg-accent-50"
+                    ? "bg-blue-100 text-blue-700" // Warna aktif: biru
+                    : "text-gray-500 hover:text-blue-700 hover:bg-blue-50" // Warna non-aktif: abu-abu
                 }
               `}
             >
@@ -83,15 +79,15 @@ export default function BottomNavigation() {
                     w-5 h-5 transition-all duration-200
                     ${
                       isActive
-                        ? "text-awqaf-primary"
-                        : "text-awqaf-foreground-secondary"
+                        ? "text-blue-700" // Warna ikon aktif
+                        : "text-gray-500" // Warna ikon non-aktif
                     }
                   `}
                 />
 
                 {/* Active indicator dot */}
                 {isActive && (
-                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-awqaf-primary rounded-full animate-pulse"></div>
+                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-700 rounded-full animate-pulse"></div> // Warna dot aktif
                 )}
               </div>
 
@@ -101,8 +97,8 @@ export default function BottomNavigation() {
                 text-xs font-medium transition-all duration-200 text-center leading-tight
                 ${
                   isActive
-                    ? "text-awqaf-primary font-semibold"
-                    : "text-awqaf-foreground-secondary"
+                    ? "text-blue-700 font-semibold" // Warna label aktif
+                    : "text-gray-500" // Warna label non-aktif
                 }
               `}
               >
@@ -111,7 +107,7 @@ export default function BottomNavigation() {
 
               {/* Active background highlight */}
               {isActive && (
-                <div className="absolute inset-0 bg-gradient-to-t from-accent-200/20 to-transparent rounded-xl pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-200/20 to-transparent rounded-xl pointer-events-none"></div> // Warna gradien aktif
               )}
             </Link>
           );
@@ -119,7 +115,7 @@ export default function BottomNavigation() {
       </div>
 
       {/* Top border accent */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-200 to-transparent"></div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div> {/* Warna border atas */}
     </nav>
   );
 }

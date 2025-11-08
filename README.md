@@ -1,6 +1,6 @@
-# IbadahApp - Aplikasi Ibadah Muslim PWA
+# LegalApp - Aplikasi Ibadah Muslim PWA
 
-IbadahApp adalah aplikasi Progressive Web App (PWA) yang dirancang khusus untuk umat Muslim. Aplikasi ini menyediakan berbagai fitur ibadah seperti jadwal sholat, arah qibla, Al-Quran, dan dzikir.
+LegalApp adalah aplikasi Progressive Web App (PWA) yang dirancang khusus untuk umat Muslim. Aplikasi ini menyediakan berbagai fitur ibadah seperti jadwal sholat, arah qibla, Al-Quran, dan dzikir.
 
 ## 🚀 Fitur PWA
 
@@ -48,7 +48,7 @@ IbadahApp adalah aplikasi Progressive Web App (PWA) yang dirancang khusus untuk 
 
 ```bash
 git clone <repository-url>
-cd ibadahapp-pwa
+cd LegalApp-pwa
 ```
 
 2. **Install dependencies**
@@ -83,7 +83,7 @@ pnpm dev
 ## 📁 Struktur Proyek
 
 ```
-ibadahapp-pwa/
+LegalApp-pwa/
 ├── app/
 │   ├── components/
 │   │   └── PWAInstaller.tsx    # Komponen install PWA
@@ -181,5 +181,4 @@ Proyek ini dibuat untuk keperluan ibadah umat Muslim. Silakan gunakan dengan bij
 
 ---
 
-**IbadahApp** - Dibuat dengan ❤️ untuk umat Muslim
-
+**LegalApp** - Dibuat dengan ❤️ untuk umat Muslim

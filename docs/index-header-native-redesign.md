@@ -1,4 +1,4 @@
-# Index Header Native Redesign - IbadahApp PWA
+# Index Header Native Redesign - LegalApp PWA
 
 Dokumentasi redesign header di halaman index agar lebih mirip aplikasi mobile native dengan menghilangkan background putih yang memanjang sepanjang layar.
 
@@ -110,8 +110,8 @@ flex items-center justify-between
           {/* Logo container */}
           <div className="w-10 h-10 bg-white rounded-full shadow-sm border-2 border-accent-100 flex items-center justify-center">
             <Image
-              src="/ibadahapp-logo.png"
-              alt="IbadahApp Logo"
+              src="/LegalApp-logo.png"
+              alt="LegalApp Logo"
               width={32}
               height={32}
               className="w-8 h-8 object-contain"
@@ -120,7 +120,7 @@ flex items-center justify-between
           {/* Title and date */}
           <div>
             <h1 className="text-lg font-bold text-awqaf-primary font-comfortaa">
-              IbadahApp
+              LegalApp
             </h1>
             <HijriDate />
           </div>
